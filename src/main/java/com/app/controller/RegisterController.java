@@ -1,0 +1,152 @@
+package com.app.controller;
+
+import com.app.MainApp;
+import com.app.util.DatabaseManager;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class RegisterController {
+
+    @FXML
+    private AnchorPane rootPane;
+
+    @FXML
+    private TextField firstNameField;
+
+    @FXML
+    private TextField lastNameField;
+
+    @FXML
+    private TextField emailField;
+
+    @FXML
+    private TextField phoneField;
+
+    @FXML
+    private ComboBox<String> genderBox;
+
+    @FXML
+    private ComboBox<String> roleBox;
+
+    @FXML
+    private TextField usernameField;
+
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private Label messageLabel;
+
+    private double xOffset = 0;
+    private double yOffset = 0;
+
+    @FXML
+    public void registerAction(ActionEvent event) {
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        String email = emailField.getText();
+        String phone = phoneField.getText();
+        String gender = genderBox.getValue();
+        String role = roleBox.getValue();
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || phone.isEmpty() ||
+                gender == null || role == null || username.isEmpty() || password.isEmpty()) {
+            messageLabel.setStyle("-fx-text-fill: #ff4757;");
+            messageLabel.setText("Please fill in all fields!");
+            return;
+        }
+
+        if (registerUser(username, password, firstName, lastName, email, phone, gender, role)) {
+            messageLabel.setStyle("-fx-text-fill: #2ed573;");
+            messageLabel.setText("MESSAGER SUCCESED REGISTERING! You can now login.");
+            // Clear fields for visual feedback
+            firstNameField.clear();
+            lastNameField.clear();
+            emailField.clear();
+            phoneField.clear();
+            usernameField.clear();
+            passwordField.clear();
+        } else {
+            messageLabel.setStyle("-fx-text-fill: #ff4757;");
+            messageLabel.setText("Registration failed. Username might be taken.");
+        }
+    }
+
+    private boolean registerUser(String username, String password, String firstName, String lastName, String email,
+            String phone, String gender, String role) {
+        String query = "INSERT INTO users (username, password, first_name, last_name, email, phone, gender, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseManager.getConnection()) {
+            if (conn == null)
+                return false;
+            try (PreparedStatement pst = conn.prepareStatement(query)) {
+                pst.setString(1, username);
+                pst.setString(2, password);
+                pst.setString(3, firstName);
+                pst.setString(4, lastName);
+                pst.setString(5, email);
+                pst.setString(6, phone);
+                pst.setString(7, gender);
+                pst.setString(8, role);
+                int affectedRows = pst.executeUpdate();
+                return affectedRows > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @FXML
+    public void backToLogin(MouseEvent event) {
+        try {
+            MainApp.setRoot("login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onWindowPressed(MouseEvent event) {
+        xOffset = event.getSceneX();
+        yOffset = event.getSceneY();
+    }
+
+    @FXML
+    public void onWindowDragged(MouseEvent event) {
+        Stage stage = (Stage) rootPane.getScene().getWindow();
+        if (!MainApp.isMaximized) {
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        }
+    }
+
+    @FXML
+    public void handleMinimize(ActionEvent event) {
+        Stage stage = (Stage) rootPane.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    @FXML
+    public void handleMaximize(ActionEvent event) {
+        MainApp.toggleMaximize((Stage) rootPane.getScene().getWindow());
+    }
+
+    @FXML
+    public void handleClose(ActionEvent event) {
+        MainApp.closeApp();
+    }
+}

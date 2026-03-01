@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="rootPane" onMouseDragged="#onWindowDragged" onMousePressed="#onWindowPressed" prefHeight="900.0" prefWidth="1400.0" styleClass="dashboard-container" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.DashboardController">
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <!-- Sidebar -->
+            <left>
+                <VBox prefWidth="250.0" styleClass="sidebar">
+                    <children>
+                        <Label styleClass="sidebar-logo" text="Doctor App">
+                            <VBox.margin>
+                                <Insets bottom="50.0" left="25.0" right="25.0" top="30.0" />
+                            </VBox.margin>
+                        </Label>
+                        
+                        <VBox fx:id="sidebarMenu" spacing="10.0" VBox.vgrow="ALWAYS">
+                            <padding>
+                                <Insets left="20.0" right="20.0" />
+                            </padding>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item, active-menu-item">
+                                    <children>
+                                        <SVGPath content="M3,13h8V3H3V13z M3,21h8v-6H3V21z M13,21h8V11h-8V21z M13,3v6h8V3H13z" fill="WHITE" />
+                                        <Label text="Dashboard" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M19,3h-1V1h-2v2H8V1H6v2H5C3.89,3,3,3.9,3,5v14c0,1.1,0.89,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.11,3,19,3z M19,19H5V8h14V19z" fill="#b8c2d1" />
+                                        <Label text="Appointment" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M12,12c2.21,0,4-1.79,4-4s-1.79-4-4-4s-4,1.79-4,4S9.79,12,12,12z M12,14c-2.67,0-8,1.34-8,4v2h16v-2C20,15.34,14.67,14,12,14z" fill="#b8c2d1" />
+                                        <Label text="Patients" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M20,4H4C2.9,4,2,4.9,2,6v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,18H4V8h16V18z" fill="#b8c2d1" />
+                                        <Label text="Messages" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M6,22H18V20H6V22ZM18,2H6A2,2,0,0,0,4,4V16A2,2,0,0,0,6,18H18A2,2,0,0,0,20,16V4A2,2,0,0,0,18,2ZM18,16H6V4H18V16ZM12,6V10H16V12H12V16H10V12H6V10H10V6H12Z" fill="#b8c2d1" />
+                                        <Label text="Medications" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M14,2H6A2,2,0,0,0,4,4V20A2,2,0,0,0,6,22H18A2,2,0,0,0,20,20V8L14,2ZM18,20H6V4H13V9H18V20Z" fill="#b8c2d1" />
+                                        <Label text="Documents" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M11.8,2.1L3,5.1V11c0,5.5,3.8,10.7,8.8,12c5-1.3,8.8-6.5,8.8-12V5.1L11.8,2.1z M17,11c0,4.5-2.9,8.7-7,9.9V4.2l7,2.4V11z" fill="#b8c2d1" />
+                                        <Label text="Finances" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" onMouseClicked="#openProfilePage" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,5c1.66,0,3,1.34,3,3s-1.34,3-3,3 s-3-1.34-3-3S10.34,5,12,5z M12,19.2c-2.5,0-4.71-1.28-6-3.22c0.03-1.99,4-3.08,6-3.08s5.97,1.09,6,3.08 C16.71,17.92,14.5,19.2,12,19.2z" fill="#b8c2d1" />
+                                        <Label text="My Profile" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" fill="#b8c2d1" />
+                                        <Label text="Settings" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#logoutAction" styleClass="menu-item, logout-item">
+                            <children>
+                                <SVGPath content="M17,7l-1.41,1.41L18.17,11H8v2h10.17l-2.58,2.58L17,17l5-5L17,7z M4,5h8V3H4C2.9,3,2,3.9,2,5v14c0,1.1,0.9,2,2,2h8v-2H4V5z" fill="#b8c2d1" />
+                                <Label text="Logout" />
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="30.0" left="20.0" right="20.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+            </left>
+            
+            <!-- Center Main Content -->
+            <center>
+                <VBox styleClass="main-content">
+                    <children>
+                        <!-- Top Nav / Search bar -->
+                        <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="20.0" styleClass="top-nav">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" styleClass="search-box" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <SVGPath content="M15.5,14h-0.79l-0.28-0.27C15.41,12.59,16,11.11,16,9.5C16,5.91,13.09,3,9.5,3S3,5.91,3,9.5S5.91,16,9.5,16 c1.61,0,3.09-0.59,4.23-1.57l0.27,0.28v0.79l5,4.99L20.49,19L15.5,14z M9.5,14C7.01,14,5,11.99,5,9.5S7.01,5,9.5,5S14,7.01,14,9.5 S11.99,14,9.5,14z" fill="#7f8fa6" />
+                                        <TextField promptText="Search Anything..." styleClass="search-input" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" spacing="25.0">
+                                    <children>
+                                        <SVGPath content="M12,22c1.1,0,2-0.9,2-2h-4C10,21.1,10.9,22,12,22z M18,16v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-0.83-0.67-1.5-1.5-1.5 s-1.5,0.67-1.5,1.5v0.68C7.64,5.36,6,7.92,6,11v5l-2,2v1h16v-1L18,16z" fill="#7f8fa6" />
+                                        <Button styleClass="btn-primary" text="+ Make Appointment" />
+                                    </children>
+                                </HBox>
+                            </children>
+                            <padding>
+                                <Insets left="30.0" right="30.0" />
+                            </padding>
+                        </HBox>
+                        
+                        <ScrollPane fitToWidth="true" styleClass="content-scroll" VBox.vgrow="ALWAYS">
+                            <content>
+                                <VBox spacing="30.0" styleClass="content-area">
+                                    <children>
+                                        <!-- Welcome Banner -->
+                                        <AnchorPane prefHeight="130.0" styleClass="welcome-banner">
+                                            <children>
+                                                <VBox layoutX="30.0" layoutY="30.0" spacing="5.0">
+                                                    <children>
+                                                        <Label fx:id="drNameLabel" styleClass="banner-title" text="Hello Dr. Jackson Santos" />
+                                                        <Label styleClass="banner-subtitle" text="Here are your important tasks and reports. Please check the next appointment." />
+                                                    </children>
+                                                </VBox>
+                                                <ImageView fitHeight="130.0" fitWidth="130.0" layoutX="500.0" opacity="0.3" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <!-- Abstract stethoscope or some medical graphic -->
+                                                    </image>
+                                                </ImageView>
+                                            </children>
+                                        </AnchorPane>
+                                        
+                                        <!-- Activity Chart Section -->
+                                        <VBox spacing="15.0" styleClass="card">
+                                            <children>
+                                                <HBox alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Label styleClass="card-title" text="Activity" />
+                                                        <Region HBox.hgrow="ALWAYS" />
+                                                        <Label styleClass="dim-label" text="This Year ▼" />
+                                                    </children>
+                                                </HBox>
+                                                <LineChart fx:id="activityChart" legendSide="BOTTOM" prefHeight="300.0">
+                                                    <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+                                                    <yAxis><NumberAxis side="LEFT" /></yAxis>
+                                                </LineChart>
+                                            </children>
+                                        </VBox>
+                                        
+                                        <!-- Middle Section Tasks/Appointments -->
+                                        <HBox spacing="30.0">
+                                            <children>
+                                                <!-- Appointment Request -->
+                                                <VBox spacing="15.0" styleClass="card" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <HBox alignment="CENTER_LEFT">
+                                                            <children>
+                                                                <Label styleClass="card-title" text="Appointment Request" />
+                                                                <Region HBox.hgrow="ALWAYS" />
+                                                                <Label styleClass="see-all-btn" text="See All" />
+                                                            </children>
+                                                        </HBox>
+                                                        <VBox spacing="10.0" styleClass="request-list">
+                                                          <!-- Placeholder Item 1 -->
+                                                           <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="request-item">
+                                                              <children>
+                                                                 <Circle fill="#dcdde1" radius="20.0" />
+                                                                 <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                       <Label styleClass="item-name" text="Daniel Smith" />
+                                                                       <Label styleClass="item-desc" text="Diabetes" />
+                                                                    </children>
+                                                                 </VBox>
+                                                                 <Label styleClass="item-date" text="04/02/2020 - 10 AM" />
+                                                                 <Label styleClass="item-status-accepted" text="Accepted" />
+                                                                 <HBox spacing="5.0">
+                                                                    <children>
+                                                                       <Button styleClass="icon-btn-check" text="✓" />
+                                                                       <Button styleClass="icon-btn-close" text="✕" />
+                                                                    </children>
+                                                                 </HBox>
+                                                              </children>
+                                                           </HBox>
+                                                           <!-- Placeholder Item 2 -->
+                                                           <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="request-item">
+                                                              <children>
+                                                                 <Circle fill="#dcdde1" radius="20.0" />
+                                                                 <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                       <Label styleClass="item-name" text="Dora Herrera" />
+                                                                       <Label styleClass="item-desc" text="Flu" />
+                                                                    </children>
+                                                                 </VBox>
+                                                                 <Label styleClass="item-date" text="11/02/2020 - 9 AM" />
+                                                                 <HBox spacing="5.0">
+                                                                    <children>
+                                                                       <Button styleClass="icon-btn-check" text="✓" />
+                                                                       <Button styleClass="icon-btn-close" text="✕" />
+                                                                    </children>
+                                                                 </HBox>
+                                                              </children>
+                                                           </HBox>
+                                                        </VBox>
+                                                    </children>
+                                                </VBox>
+                                                
+                                                <!-- Today's Appointment -->
+                                                <VBox spacing="15.0" styleClass="card" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <HBox alignment="CENTER_LEFT">
+                                                            <children>
+                                                                <Label styleClass="card-title" text="Appointment" />
+                                                                <Region HBox.hgrow="ALWAYS" />
+                                                                <Label styleClass="dim-label" text="Today ▼" />
+                                                            </children>
+                                                        </HBox>
+                                                        <VBox spacing="10.0" styleClass="appointment-list">
+                                                           <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="appointment-item-active">
+                                                              <children>
+                                                                 <Circle fill="#dcdde1" radius="20.0" />
+                                                                 <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                       <Label styleClass="item-name" text="Mable Clarke" />
+                                                                       <Label styleClass="item-desc" text="Diabetes" />
+                                                                    </children>
+                                                                 </VBox>
+                                                                 <Label styleClass="item-status-finished" text="Finished" />
+                                                              </children>
+                                                           </HBox>
+                                                           <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="appointment-item">
+                                                              <children>
+                                                                 <Circle fill="#dcdde1" radius="20.0" />
+                                                                 <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                       <Label styleClass="item-name" text="Roy Clayton" />
+                                                                       <Label styleClass="item-desc" text="Flu" />
+                                                                    </children>
+                                                                 </VBox>
+                                                                 <Label styleClass="item-time" text="12:00" />
+                                                              </children>
+                                                           </HBox>
+                                                        </VBox>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                        
+                                        <!-- Recent Patients Table -->
+                                        <VBox spacing="15.0" styleClass="card">
+                                           <children>
+                                              <Label styleClass="card-title" text="Recent Patients" />
+                                              <VBox styleClass="custom-table" VBox.vgrow="ALWAYS">
+                                                 <!-- Table Header -->
+                                                 <HBox styleClass="table-header">
+                                                    <children>
+                                                       <Label prefWidth="150.0" text="Name" />
+                                                       <Label prefWidth="80.0" text="Gender" />
+                                                       <Label prefWidth="80.0" text="Weight" />
+                                                       <Label prefWidth="120.0" text="Disease" />
+                                                       <Label prefWidth="100.0" text="Date" />
+                                                       <Label prefWidth="100.0" text="Heart Rate" />
+                                                       <Label prefWidth="100.0" text="Blood Type" />
+                                                       <Label prefWidth="120.0" text="Status" />
+                                                    </children>
+                                                 </HBox>
+                                                 <HBox styleClass="table-row">
+                                                    <children>
+                                                       <Label prefWidth="150.0" text="Daniel Smith" />
+                                                       <Label prefWidth="80.0" text="Male" />
+                                                       <Label prefWidth="80.0" text="75 kg" />
+                                                       <Label prefWidth="120.0" text="Cancer" />
+                                                       <Label prefWidth="100.0" text="12 Jan" />
+                                                       <Label prefWidth="100.0" text="95 bpm" />
+                                                       <Label prefWidth="100.0" text="AB" />
+                                                       <Label styleClass="status-outpatient" text="Outpatient" />
+                                                    </children>
+                                                 </HBox>
+                                                 <HBox styleClass="table-row">
+                                                    <children>
+                                                       <Label prefWidth="150.0" text="Dora Herrera" />
+                                                       <Label prefWidth="80.0" text="Female" />
+                                                       <Label prefWidth="80.0" text="65 kg" />
+                                                       <Label prefWidth="120.0" text="Flu" />
+                                                       <Label prefWidth="100.0" text="05 Jan" />
+                                                       <Label prefWidth="100.0" text="88 bpm" />
+                                                       <Label prefWidth="100.0" text="A" />
+                                                       <Label styleClass="status-recover" text="Recover" />
+                                                    </children>
+                                                 </HBox>
+                                              </VBox>
+                                           </children>
+                                        </VBox>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                    </padding>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </VBox>
+            </center>
+            
+            <!-- Right Sidebar stats -->
+            <right>
+                <VBox prefWidth="320.0" spacing="25.0" styleClass="right-sidebar">
+                    <padding>
+                        <Insets bottom="30.0" left="25.0" right="25.0" top="30.0" />
+                    </padding>
+                    <children>
+                        <!-- Profile Card -->
+                        <VBox alignment="CENTER" spacing="10.0" styleClass="card">
+                            <children>
+                                <ImageView fx:id="profileImage" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                                <Label fx:id="profileName" styleClass="profile-name" text="Dr. Jackson Santos" />
+                                <Label fx:id="profileSubtitle" styleClass="profile-subtitle" text="Dermatologists - Texas Hospital" />
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" top="20.0" />
+                            </padding>
+                        </VBox>
+                        
+                        <!-- Stats Section -->
+                        <VBox spacing="15.0">
+                            <children>
+                                <Label styleClass="section-title" text="150 People" />
+                                <Label styleClass="dim-label" text="Appointments Limit" />
+                                <ProgressBar prefHeight="10.0" prefWidth="270.0" progress="0.5" />
+                                <HBox>
+                                   <children>
+                                      <Label styleClass="tiny-label" text="0" />
+                                      <Region HBox.hgrow="ALWAYS" />
+                                      <Label styleClass="tiny-label" text="150/300" />
+                                   </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        
+                        <!-- Mini Stats Grid -->
+                        <GridPane hgap="15.0" vgap="15.0">
+                            <children>
+                                <VBox styleClass="card-mini" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <children>
+                                        <Label styleClass="mini-val" text="2.543" />
+                                        <Label styleClass="mini-label" text="Appointments" />
+                                    </children>
+                                </VBox>
+                                <VBox styleClass="card-mini" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <children>
+                                        <Label styleClass="mini-val" text="3.567" />
+                                        <Label styleClass="mini-label" text="Total Patients" />
+                                    </children>
+                                </VBox>
+                                <VBox styleClass="card-mini" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <children>
+                                        <Label styleClass="mini-val" text="13.078" />
+                                        <Label styleClass="mini-label" text="Consultations" />
+                                    </children>
+                                </VBox>
+                                <VBox styleClass="card-mini" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <children>
+                                        <Label styleClass="mini-val" text="2.736" />
+                                        <Label styleClass="mini-label" text="Return Patients" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </GridPane>
+                        
+                        <!-- Notification Cards -->
+                        <HBox spacing="15.0">
+                           <children>
+                              <VBox alignment="CENTER" prefWidth="130.0" styleClass="notif-card-purple" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label styleClass="notif-val" text="18" />
+                                    <Label styleClass="notif-label" text="Missed Call" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER" prefWidth="130.0" styleClass="notif-card-white" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label styleClass="notif-val-dark" text="9" />
+                                    <Label styleClass="notif-label-dark" text="New Messages" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        
+                        <!-- Income Section -->
+                        <VBox spacing="15.0" styleClass="card">
+                           <children>
+                              <HBox alignment="CENTER_LEFT">
+                                 <children>
+                                    <Label styleClass="card-title" text="Incomes" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label styleClass="dim-label" text="February ▼" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <Label styleClass="income-val" text="\$2.857,15" />
+                                    <Label styleClass="income-badge" text="+56%" />
+                                 </children>
+                              </HBox>
+                              <Label styleClass="dim-label" text="Total Incomes from last month" />
+                              
+                              <HBox alignment="CENTER_LEFT" styleClass="transfer-row">
+                                 <children>
+                                    <Label text="Transfer automatically" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Circle fill="#5352ed" radius="10.0" />
+                                 </children>
+                              </HBox>
+                              
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Button styleClass="btn-purple-sm" text="Send Money" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                    <Button styleClass="btn-white-sm" text="Payment Method" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </right>
+        </BorderPane>
+
+        <!-- Window Controls -->
+        <HBox alignment="TOP_RIGHT" spacing="8.0" styleClass="win-control-box" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#handleMinimize" styleClass="win-btn, win-btn-min" text="—" />
+                <Button mnemonicParsing="false" onAction="#handleMaximize" styleClass="win-btn, win-btn-max" text="□" />
+                <Button mnemonicParsing="false" onAction="#handleClose" styleClass="win-btn, win-btn-close" text="✕" />
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

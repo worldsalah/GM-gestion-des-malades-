@@ -1,0 +1,255 @@
+/* Main Application Background Gradient */
+.main-app-pane {
+    -fx-background-color: linear-gradient(to bottom right, #3f51b5, #e91e63);
+}
+
+/* Image-Matched Theme Colors */
+.shape-purple {
+    -fx-fill: linear-gradient(to bottom right, #6a11cb 0%, #2575fc 100%);
+}
+
+.shape-pink {
+    -fx-fill: linear-gradient(to bottom right, #ff0844 0%, #ffb199 100%);
+}
+
+.shape-blue-violet {
+    -fx-fill: linear-gradient(to bottom right, #4facfe 0%, #00f2fe 100%);
+}
+
+.shape-deep-purple {
+    -fx-fill: linear-gradient(to bottom right, #662d8c 0%, #ed1e79 100%);
+}
+
+/* Base Shadow Layer for the White Card */
+.card-shadow {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 15, 0, 0, 5);
+}
+
+/* Clipped White Card Content Layer */
+.card-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+}
+
+/* User Login text styling */
+.login-header {
+    -fx-fill: #212529;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 28px;
+}
+
+/* The grey background for the generic input group containing the icon and text field */
+.input-group {
+    -fx-background-color: #e9ecef;
+    -fx-background-radius: 8;
+    -fx-padding: 5 15 5 15;
+    -fx-border-width: 0;
+}
+
+/* New Image-Matched Buttons & Inputs */
+.btn-login {
+    -fx-background-color: linear-gradient(to right, #662d8c, #ed1e79);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-background-radius: 25;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(237, 30, 121, 0.3), 10, 0, 0, 5);
+}
+
+.btn-login:hover {
+    -fx-background-color: linear-gradient(to right, #7b39a3, #f52d8c);
+    -fx-translate-y: -1;
+}
+
+/* The actual textfields (username/password) to have transparent background since they are inside the grey container */
+.transparent-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: #495057;
+    -fx-prompt-text-fill: #adb5bd;
+    -fx-font-size: 14px;
+}
+
+/* Removing border and outline shadow from focus on standard text fields */
+.transparent-input:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Subtle Links styling */
+.link-text {
+    -fx-fill: #6c757d;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.link-text:hover {
+    -fx-fill: #343a40;
+    -fx-underline: true;
+}
+
+.tiny-label {
+    -fx-text-fill: #6c757d;
+    -fx-font-size: 11px;
+}
+
+/* Dashboard Sidebar */
+.sidebar {
+    -fx-background-color: #5352ed;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 0);
+}
+
+.menu-item {
+    -fx-padding: 12 15 12 15;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.menu-item:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item Label {
+    -fx-text-fill: #b8c2d1;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 0 15;
+}
+
+.active-menu-item {
+    -fx-background-color: white;
+}
+
+.active-menu-item Label {
+    -fx-text-fill: #5352ed;
+}
+
+/* Window Controls (MacOS Style) */
+.win-btn {
+    -fx-background-radius: 50;
+    -fx-min-width: 14px;
+    -fx-min-height: 14px;
+    -fx-pref-width: 14px;
+    -fx-pref-height: 14px;
+    -fx-max-width: 14px;
+    -fx-max-height: 14px;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.win-btn-close {
+    -fx-background-color: #ff5f56;
+    -fx-border-color: #e0443e;
+    -fx-border-radius: 50;
+}
+
+.win-btn-min {
+    -fx-background-color: #ffbd2e;
+    -fx-border-color: #dea123;
+    -fx-border-radius: 50;
+}
+
+.win-btn-max {
+    -fx-background-color: #27c93f;
+    -fx-border-color: #1aab29;
+    -fx-border-radius: 50;
+}
+
+.win-control-box {
+    -fx-padding: 15 20 0 0;
+}
+
+.win-control-box-sidebar {
+    -fx-padding: 15 0 0 15;
+}
+
+/* Polished Go Back Button */
+.btn-go-back {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #64748b;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 12 25 12 25;
+    -fx-cursor: hand;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+.btn-go-back:hover {
+    -fx-background-color: #e2e8f0;
+    -fx-text-fill: #475569;
+}
+
+/* Profile Premium Styles */
+.profile-card-elite {
+    -fx-background-color: white;
+    -fx-background-radius: 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 20, 0, 0, 10);
+}
+
+.profile-info-group {
+    -fx-padding: 10;
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 12;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+.profile-info-group:focused-within {
+    -fx-border-color: #5352ed;
+    -fx-background-color: white;
+}
+
+.profile-field-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #94a3b8;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5 0;
+}
+
+.btn-save-changes {
+    -fx-background-color: #5352ed;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 12 30 12 30;
+    -fx-cursor: hand;
+}
+
+.btn-delete-account {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ef4444;
+    -fx-font-weight: bold;
+    -fx-border-color: #ef4444;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+}
+
+.btn-delete-account:hover {
+    -fx-background-color: #fee2e2;
+}
+
+.profile-header-premium {
+    -fx-background-color: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
+    -fx-background-radius: 30 30 0 0;
+}
+
+/* Table rows */
+.table-row {
+    -fx-padding: 15 0 15 0;
+    -fx-border-color: #f1f2f6;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.table-row Label {
+    -fx-text-fill: #2f3542;
+    -fx-font-size: 13px;
+}
