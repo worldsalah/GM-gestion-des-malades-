@@ -3,6 +3,7 @@ package com.app.controller;
 import com.app.MainApp;
 import com.app.util.DatabaseManager;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -450,6 +451,15 @@ public class PatientController {
     public void openAppointmentsPage(MouseEvent event) {
         try {
             MainApp.setRoot("appointments");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void openTasksPage(Event event) {
+        try {
+            MainApp.setRoot("tasks");
         } catch (IOException e) {
             e.printStackTrace();
         }
