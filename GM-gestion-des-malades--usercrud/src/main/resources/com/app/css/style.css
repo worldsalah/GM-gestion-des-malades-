@@ -358,11 +358,13 @@
 }
 
 /* Request and Appointment Lists */
-.request-list, .appointment-list {
+.request-list,
+.appointment-list {
     -fx-spacing: 10;
 }
 
-.request-item, .appointment-item {
+.request-item,
+.appointment-item {
     -fx-background-color: #f8fafc;
     -fx-background-radius: 12;
     -fx-padding: 15 20 15 20;
@@ -415,7 +417,8 @@
 }
 
 /* Icon Buttons */
-.icon-btn-check, .icon-btn-close {
+.icon-btn-check,
+.icon-btn-close {
     -fx-background-radius: 50;
     -fx-min-width: 25px;
     -fx-min-height: 25px;
@@ -730,4 +733,322 @@
 .patient-card HBox {
     -fx-padding: 45 15 0 15;
     -fx-alignment: center-left;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APPOINTMENTS CALENDAR VIEW
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Page title in top nav */
+.appt-page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+/* ── Calendar container (left column) ── */
+.cal-container {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 1px 0 0;
+}
+
+.cal-header {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.cal-month-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.cal-nav-btn {
+    -fx-background-color: #f1f5f9;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5352ed;
+    -fx-background-radius: 50;
+    -fx-min-width: 36px;
+    -fx-min-height: 36px;
+    -fx-max-width: 36px;
+    -fx-max-height: 36px;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+}
+
+.cal-nav-btn:hover {
+    -fx-background-color: #5352ed;
+    -fx-text-fill: white;
+}
+
+.btn-today {
+    -fx-background-color: #5352ed;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20 8 20;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+
+.btn-today:hover {
+    -fx-background-color: #4338ca;
+}
+
+/* Day-of-week header row */
+.cal-dow-row {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.cal-dow {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748b;
+    -fx-alignment: center;
+    -fx-padding: 10 0 10 0;
+    -fx-max-width: Infinity;
+    -fx-alignment: center;
+}
+
+/* Calendar scroll area */
+.cal-scroll {
+    -fx-background-color: white;
+    -fx-hbar-policy: NEVER;
+}
+
+/* Calendar grid */
+.cal-grid {
+    -fx-background-color: white;
+    -fx-grid-lines-color: #e2e8f0;
+}
+
+/* Individual day cell */
+.cal-cell {
+    -fx-background-color: white;
+    -fx-padding: 8 6 8 6;
+    -fx-min-height: 100px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.cal-cell:hover {
+    -fx-background-color: #f8fafc;
+}
+
+.cal-cell-today {
+    -fx-background-color: #eef2ff;
+}
+
+.cal-cell-selected {
+    -fx-background-color: #e0e7ff;
+    -fx-border-color: #5352ed;
+    -fx-border-width: 2px;
+}
+
+.cal-day-num {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #334155;
+    -fx-padding: 0 0 4 0;
+}
+
+.cal-day-today {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: #5352ed;
+    -fx-background-radius: 50;
+    -fx-min-width: 26px;
+    -fx-min-height: 26px;
+    -fx-max-width: 26px;
+    -fx-max-height: 26px;
+    -fx-alignment: center;
+    -fx-padding: 2 0 2 0;
+}
+
+/* Event chips inside cells */
+.chip-scheduled {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #1d4ed8;
+    -fx-background-radius: 4;
+    -fx-padding: 2 6 2 6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.chip-confirmed {
+    -fx-background-color: #d1fae5;
+    -fx-text-fill: #065f46;
+    -fx-background-radius: 4;
+    -fx-padding: 2 6 2 6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.chip-completed {
+    -fx-background-color: #e0e7ff;
+    -fx-text-fill: #3730a3;
+    -fx-background-radius: 4;
+    -fx-padding: 2 6 2 6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.chip-cancelled {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #991b1b;
+    -fx-background-radius: 4;
+    -fx-padding: 2 6 2 6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.chip-noshow {
+    -fx-background-color: #fef3c7;
+    -fx-text-fill: #92400e;
+    -fx-background-radius: 4;
+    -fx-padding: 2 6 2 6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.cal-more-chip {
+    -fx-font-size: 10px;
+    -fx-text-fill: #64748b;
+    -fx-padding: 2 4 2 4;
+    -fx-cursor: hand;
+}
+
+/* ── Right panel ── */
+.appt-right-panel {
+    -fx-background-color: #f8fafc;
+    -fx-min-width: 380px;
+    -fx-max-width: 380px;
+}
+
+.day-panel-header {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.day-panel-date {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+/* Appointment row in the day panel */
+.appt-row {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
+    -fx-padding: 12 14 12 14;
+    -fx-cursor: hand;
+}
+
+.appt-row:hover {
+    -fx-background-color: #f0f4ff;
+}
+
+.appt-time {
+    -fx-font-size: 11px;
+    -fx-text-fill: #64748b;
+}
+
+.appt-patient {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.appt-reason {
+    -fx-font-size: 11px;
+    -fx-text-fill: #94a3b8;
+}
+
+.appt-icon-btn {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #5352ed;
+    -fx-background-radius: 8;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+
+.appt-icon-btn:hover {
+    -fx-background-color: #e0e7ff;
+}
+
+.appt-icon-btn-danger {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #ef4444;
+    -fx-background-radius: 8;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+
+.appt-icon-btn-danger:hover {
+    -fx-background-color: #fecaca;
+}
+
+.no-appt-label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 13px;
+    -fx-padding: 20 0 0 0;
+}
+
+/* Status color stripes in appointment rows */
+.chip-scheduled-stripe {
+    -fx-background-color: #3b82f6;
+    -fx-background-radius: 2;
+}
+
+.chip-confirmed-stripe {
+    -fx-background-color: #10b981;
+    -fx-background-radius: 2;
+}
+
+.chip-completed-stripe {
+    -fx-background-color: #6366f1;
+    -fx-background-radius: 2;
+}
+
+.chip-cancelled-stripe {
+    -fx-background-color: #ef4444;
+    -fx-background-radius: 2;
+}
+
+.chip-noshow-stripe {
+    -fx-background-color: #f59e0b;
+    -fx-background-radius: 2;
+}
+
+/* Form field labels */
+.form-field-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748b;
 }

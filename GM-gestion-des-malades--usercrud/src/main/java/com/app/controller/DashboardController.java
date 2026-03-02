@@ -3,6 +3,7 @@ package com.app.controller;
 import com.app.MainApp;
 import com.app.util.UserSession;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -130,6 +131,15 @@ public class DashboardController {
     public void openPatientsPage(MouseEvent event) {
         try {
             MainApp.setRoot("patients");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void openAppointmentsPage(Event event) {
+        try {
+            MainApp.setRoot("appointments");
         } catch (IOException e) {
             e.printStackTrace();
         }

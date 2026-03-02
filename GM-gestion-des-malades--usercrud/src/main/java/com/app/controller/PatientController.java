@@ -446,6 +446,15 @@ public class PatientController {
         }
     }
 
+    @FXML
+    public void openAppointmentsPage(MouseEvent event) {
+        try {
+            MainApp.setRoot("appointments");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static class Patient {
         private final SimpleIntegerProperty id;
         private final SimpleStringProperty firstName;
