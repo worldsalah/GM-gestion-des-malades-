@@ -146,6 +146,15 @@ public class DashboardController {
     }
 
     @FXML
+    public void openTasksPage(Event event) {
+        try {
+            MainApp.setRoot("tasks");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void onWindowPressed(MouseEvent event) {
         xOffset = event.getSceneX();
         yOffset = event.getSceneY();
