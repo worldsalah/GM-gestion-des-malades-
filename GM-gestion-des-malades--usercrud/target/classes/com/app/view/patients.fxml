@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" onMouseDragged="#onWindowDragged" onMousePressed="#onWindowPressed" prefHeight="900.0" prefWidth="1400.0" styleClass="dashboard-container" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.PatientController">
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <!-- Sidebar -->
+            <left>
+                <VBox prefWidth="250.0" styleClass="sidebar">
+                    <children>
+                        <Label styleClass="sidebar-logo" text="Doctor App">
+                            <VBox.margin>
+                                <Insets bottom="50.0" left="25.0" right="25.0" top="30.0" />
+                            </VBox.margin>
+                        </Label>
+                        
+                        <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                            <padding>
+                                <Insets left="20.0" right="20.0" />
+                            </padding>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" onMouseClicked="#goToDashboard" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M3,13h8V3H3V13z M3,21h8v-6H3V21z M13,21h8V11h-8V21z M13,3v6h8V3H13z" fill="#b8c2d1" />
+                                        <Label text="Dashboard" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M19,3h-1V1h-2v2H8V1H6v2H5C3.89,3,3,3.9,3,5v14c0,1.1,0.89,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.11,3,19,3z M19,19H5V8h14V19z" fill="#b8c2d1" />
+                                        <Label text="Appointment" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item, active-menu-item">
+                                    <children>
+                                        <SVGPath content="M12,12c2.21,0,4-1.79,4-4s-1.79-4-4-4s-4,1.79-4,4S9.79,12,12,12z M12,14c-2.67,0-8,1.34-8,4v2h16v-2C20,15.34,14.67,14,12,14z" fill="WHITE" />
+                                        <Label text="Patients" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M20,4H4C2.9,4,2,4.9,2,6v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,18H4V8h16V18z" fill="#b8c2d1" />
+                                        <Label text="Messages" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="menu-item">
+                                    <children>
+                                        <SVGPath content="M6,22H18V20H6V22ZM18,2H6A2,2,0,0,0,4,4V16A2,2,0,0,0,6,18H18A2,2,0,0,0,20,16V4A2,2,0,0,0,18,2ZM18,16H6V4H18V16ZM12,6V10H16V12H12V16H10V12H6V10H10V6H12Z" fill="#b8c2d1" />
+                                        <Label text="Medications" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#goBack" styleClass="menu-item">
+                            <children>
+                                <SVGPath content="M10,6V8H2V18H10V20H0V6H10Z M14,11H20V13H14V11Z" fill="#b8c2d1" />
+                                <Label text="Back to Dashboard" />
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="30.0" left="20.0" right="20.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+            </left>
+            
+            <!-- Center Main Content -->
+            <center>
+                <VBox styleClass="main-content">
+                    <children>
+                        <!-- Top Nav -->
+                        <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="20.0" styleClass="top-nav">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" styleClass="search-box" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <SVGPath content="M15.5,14h-0.79l-0.28-0.27C15.41,12.59,16,11.11,16,9.5C16,5.91,13.09,3,9.5,3S3,5.91,3,9.5S5.91,16,9.5,16 c1.61,0,3.09-0.59,4.23-1.57l0.27,0.28v0.79l5,4.99L20.49,19L15.5,14z M9.5,14C7.01,14,5,11.99,5,9.5S7.01,5,9.5,5S14,7.01,14,9.5 S11.99,14,9.5,14z" fill="#7f8fa6" />
+                                        <TextField editable="false" promptText="Patient Management" styleClass="search-input" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" spacing="15.0">
+                                    <children>
+                                        <Button onAction="#refreshPatients" styleClass="btn-secondary" text="Refresh" />
+                                        <Button onAction="#showAddPatientForm" styleClass="btn-primary" text="+ Add New Patient" />
+                                    </children>
+                                </HBox>
+                            </children>
+                            <padding>
+                                <Insets left="30.0" right="30.0" />
+                            </padding>
+                        </HBox>
+                        
+                        <ScrollPane fitToWidth="true" styleClass="content-scroll" VBox.vgrow="ALWAYS">
+                            <content>
+                                <StackPane>
+                                    <!-- Grid View (Patients Cards) -->
+                                    <VBox fx:id="gridContainer" spacing="20.0" styleClass="content-area">
+                                        <padding>
+                                            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                        </padding>
+                                        <children>
+                                            <HBox alignment="CENTER_LEFT">
+                                                <Label styleClass="section-title" text="All Patients" />
+                                                <Region HBox.hgrow="ALWAYS" />
+                                                <Label styleClass="dim-label" text="Manage your patients below" />
+                                            </HBox>
+                                            <FlowPane fx:id="patientsFlowPane" hgap="25.0" vgap="25.0" />
+                                        </children>
+                                    </VBox>
+
+                                    <!-- Patient Form Section (Initially Hidden) -->
+                                    <VBox fx:id="formContainer" spacing="30.0" styleClass="content-area" visible="false">
+                                        <padding>
+                                            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                        </padding>
+                                        <children>
+                                            <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                                <Button onAction="#showGrid" styleClass="btn-go-back" text="← Back to Patients" />
+                                            </HBox>
+                                            <VBox spacing="20.0" styleClass="card">
+                                                <children>
+                                                    <HBox alignment="CENTER_LEFT">
+                                                        <children>
+                                                            <Label styleClass="card-title" text="Patient Information Form" />
+                                                            <Region HBox.hgrow="ALWAYS" />
+                                                            <Label styleClass="dim-label" text="Fill the details" />
+                                                        </children>
+                                                    </HBox>
+                                                    
+                                                    <GridPane hgap="20.0" vgap="15.0">
+                                                        <children>
+                                                            <!-- First Row -->
+                                                            <Label text="First Name *" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                            <TextField fx:id="firstNameField" promptText="Enter first name" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                                            
+                                                            <Label text="Last Name *" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                                            <TextField fx:id="lastNameField" promptText="Enter last name" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                                                            
+                                                            <!-- Second Row -->
+                                                            <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="emailField" promptText="Enter email address" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                            
+                                                            <Label text="Phone" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="phoneField" promptText="Enter phone number" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                                            
+                                                            <!-- Third Row -->
+                                                            <Label text="Gender *" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                                            <ComboBox fx:id="genderComboBox" prefWidth="200.0" promptText="Select gender" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                            
+                                                            <Label text="Date of Birth" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                                            <DatePicker fx:id="dobDatePicker" prefWidth="200.0" promptText="Select date of birth" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                                            
+                                                            <!-- Fourth Row -->
+                                                            <Label text="Address" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                                            <TextArea fx:id="addressTextArea" prefHeight="60.0" prefWidth="250.0" promptText="Enter address" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                            
+                                                            <Label text="Blood Type" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                                            <ComboBox fx:id="bloodTypeComboBox" prefWidth="200.0" promptText="Select blood type" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                                            
+                                                            <!-- Fifth Row -->
+                                                            <Label text="Weight (kg)" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                                            <TextField fx:id="weightField" promptText="Enter weight" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                            
+                                                            <Label text="Height (cm)" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                                            <TextField fx:id="heightField" promptText="Enter height" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                                            
+                                                            <!-- Sixth Row -->
+                                                            <Label text="Allergies" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                                            <TextArea fx:id="allergiesTextArea" prefHeight="60.0" prefWidth="250.0" promptText="Enter known allergies" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                                            
+                                                            <Label text="Chronic Diseases" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                                            <TextArea fx:id="chronicDiseasesTextArea" prefHeight="60.0" prefWidth="250.0" promptText="Enter chronic diseases" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                                            
+                                                            <!-- Seventh Row -->
+                                                            <Label text="Emergency Contact" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                                                            <TextField fx:id="emergencyContactField" promptText="Enter emergency contact name" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                                            
+                                                            <Label text="Emergency Phone" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                                            <TextField fx:id="emergencyPhoneField" promptText="Enter emergency phone" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                                                            
+                                                            <!-- Action Buttons -->
+                                                            <HBox spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.columnSpan="4">
+                                                                <children>
+                                                                    <Button onAction="#savePatient" styleClass="btn-primary" text="Save Patient" />
+                                                                    <Button onAction="#clearForm" styleClass="btn-secondary" text="Clear Form" />
+                                                                </children>
+                                                            </HBox>
+                                                        </children>
+                                                    </GridPane>
+                                                </children>
+                                            </VBox>
+
+                                        </children>
+                                    </VBox>
+                                </StackPane>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+
+        <!-- Window Controls -->
+        <HBox alignment="TOP_RIGHT" spacing="8.0" styleClass="win-control-box" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#handleMinimize" styleClass="win-btn, win-btn-min" text="—" />
+                <Button mnemonicParsing="false" onAction="#handleMaximize" styleClass="win-btn, win-btn-max" text="□" />
+                <Button mnemonicParsing="false" onAction="#handleClose" styleClass="win-btn, win-btn-close" text="✕" />
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

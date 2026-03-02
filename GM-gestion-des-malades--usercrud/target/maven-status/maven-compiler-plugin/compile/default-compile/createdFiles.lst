@@ -1,0 +1,8 @@
+com\app\util\DatabaseManager.class
+com\app\controller\RegisterController.class
+com\app\controller\ProfileController.class
+com\app\util\UserSession.class
+com\app\controller\LoginController.class
+com\app\controller\DashboardController.class
+module-info.class
+com\app\MainApp.class
