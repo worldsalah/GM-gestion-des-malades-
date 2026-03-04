@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -94,17 +95,107 @@ public class PatientController {
     private Button deleteButton;
 
     @FXML
-    private Button refreshButton;
+    private TextField searchNameField;
+
+    @FXML
+    private TextField searchPhoneField;
+
+    @FXML
+    private DatePicker searchDobPicker;
 
     private ObservableList<Patient> patientList = FXCollections.observableArrayList();
+    private FilteredList<Patient> filteredPatientList;
     private Patient selectedPatient;
     private double xOffset = 0;
     private double yOffset = 0;
 
     public void initialize() {
         setupComboBoxes();
+
+        // Wrap the ObservableList in a FilteredList (initially display all data)
+        filteredPatientList = new FilteredList<>(patientList, b -> true);
+
+        setupSearchListeners();
+
         setupPatientsGrid();
         loadPatients();
+    }
+
+    private void setupSearchListeners() {
+        // Name Field Listener
+        if (searchNameField != null) {
+            searchNameField.textProperty().addListener((observable, oldValue, newValue) -> {
+                updateSearchFilter();
+            });
+        }
+
+        // Phone Field Listener
+        if (searchPhoneField != null) {
+            searchPhoneField.textProperty().addListener((observable, oldValue, newValue) -> {
+                updateSearchFilter();
+            });
+        }
+
+        // Date Field Listener
+        if (searchDobPicker != null) {
+            searchDobPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                updateSearchFilter();
+            });
+        }
+    }
+
+    private void updateSearchFilter() {
+        filteredPatientList.setPredicate(patient -> {
+
+            // 1. Check Name
+            String searchName = searchNameField != null ? searchNameField.getText() : "";
+            boolean matchesName = true;
+            if (searchName != null && !searchName.trim().isEmpty()) {
+                String lowerCaseFilter = searchName.toLowerCase();
+                String fullName = (patient.getFirstName() + " " + patient.getLastName()).toLowerCase();
+                matchesName = fullName.contains(lowerCaseFilter);
+            }
+
+            // 2. Check Phone
+            String searchPhone = searchPhoneField != null ? searchPhoneField.getText() : "";
+            boolean matchesPhone = true;
+            if (searchPhone != null && !searchPhone.trim().isEmpty()) {
+                matchesPhone = patient.getPhone() != null && patient.getPhone().contains(searchPhone);
+            }
+
+            // 3. Check Date of Birth
+            LocalDate searchDate = searchDobPicker != null ? searchDobPicker.getValue() : null;
+            boolean matchesDob = true;
+            if (searchDate != null) {
+                matchesDob = patient.getDateOfBirth() != null
+                        && patient.getDateOfBirth().startsWith(searchDate.toString());
+            }
+
+            // Patient must match ALL active criteria
+            return matchesName && matchesPhone && matchesDob;
+        });
+
+        refreshGridUI();
+    }
+
+    @FXML
+    public void clearFilters(ActionEvent event) {
+        if (searchNameField != null)
+            searchNameField.clear();
+        if (searchPhoneField != null)
+            searchPhoneField.clear();
+        if (searchDobPicker != null)
+            searchDobPicker.setValue(null);
+    }
+
+    private void refreshGridUI() {
+        if (patientsFlowPane != null) {
+            patientsFlowPane.getChildren().clear();
+            for (Patient patient : filteredPatientList) {
+                javafx.scene.layout.VBox card = createPatientCard(patient);
+                patientsFlowPane.getChildren().add(card);
+            }
+        }
     }
 
     private void setupComboBoxes() {
@@ -279,11 +370,6 @@ public class PatientController {
         }
     }
 
-    @FXML
-    public void refreshPatients(ActionEvent event) {
-        loadPatients();
-    }
-
     private void loadPatients() {
         patientList.clear();
         if (patientsFlowPane != null) {
@@ -317,12 +403,10 @@ public class PatientController {
                         rs.getString("emergency_phone"),
                         createdAtStr);
                 patientList.add(patient);
-
-                if (patientsFlowPane != null) {
-                    javafx.scene.layout.VBox card = createPatientCard(patient);
-                    patientsFlowPane.getChildren().add(card);
-                }
             }
+
+            // Refresh the grid using the newly populated filtered list
+            refreshGridUI();
 
         } catch (SQLException e) {
             showAlert("Database Error", "Error loading patients: " + e.getMessage());

@@ -27,36 +27,36 @@
                <children>
                   <!-- Layer 1: The shadow base for the card -->
                   <AnchorPane prefHeight="450.0" prefWidth="700.0" styleClass="card-shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            
+
                   <!-- Layer 2: The actual card with a clipped boundary -->
                   <AnchorPane prefHeight="450.0" prefWidth="700.0" styleClass="card-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <clip>
                         <Rectangle arcHeight="30.0" arcWidth="30.0" height="450.0" width="700.0" />
                      </clip>
-                     
+
                      <children>
                         <!-- Left Side Abstract Shapes (Capsules from Image) -->
                         <Group>
                            <!-- Shape 1: Top Right (Large Purple/Blue) - Tilted steep -->
                            <Rectangle arcHeight="100.0" arcWidth="100.0" height="400.0" layoutX="120.0" layoutY="-220.0" rotate="-25.0" styleClass="shape-purple" width="100.0" />
-                           
+
                            <!-- Shape 2: Left Middle (Pink/Red) - Vertical sticking out -->
                            <Rectangle arcHeight="60.0" arcWidth="60.0" height="150.0" layoutX="-30.0" layoutY="120.0" styleClass="shape-pink" width="60.0" />
-                           
+
                            <!-- Shape 3: Bottom Left (Blue/Cyan) - Diagonal -->
                            <Rectangle arcHeight="80.0" arcWidth="80.0" height="300.0" layoutX="-60.0" layoutY="300.0" rotate="-55.0" styleClass="shape-blue-violet" width="80.0" />
-            
+
                            <!-- Shape 4: Bottom Right/Center (Deep Purple) - Tilted up -->
                            <Rectangle arcHeight="90.0" arcWidth="90.0" height="350.0" layoutX="220.0" layoutY="320.0" rotate="-35.0" styleClass="shape-deep-purple" width="90.0" />
                         </Group>
-             
+
                         <!-- Right Side Form -->
                         <VBox alignment="CENTER" layoutX="350.0" prefHeight="450.0" prefWidth="350.0" spacing="10.0">
                            <children>
                               <Region VBox.vgrow="ALWAYS" />
                               <Text styleClass="login-header" text="User Login" />
                               <Region prefHeight="10.0" />
-                              
+
                               <!-- Username Field -->
                               <HBox alignment="CENTER_LEFT" maxWidth="250.0" prefHeight="45.0" styleClass="input-group">
                                  <children>
@@ -64,7 +64,7 @@
                                     <TextField fx:id="usernameField" promptText="Username" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              
+
                               <!-- Password Field -->
                               <HBox alignment="CENTER_LEFT" maxWidth="250.0" prefHeight="45.0" styleClass="input-group">
                                  <children>
@@ -72,11 +72,11 @@
                                     <PasswordField fx:id="passwordField" promptText="Password" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              
+
                               <Label fx:id="messageLabel" textFill="#ff4757" wrapText="true" />
-                              
+
                               <Button mnemonicParsing="false" onAction="#loginAction" prefHeight="45.0" prefWidth="250.0" styleClass="btn-login" text="LOGIN" />
-                              
+
                               <Region prefHeight="10.0" />
                               <Text styleClass="link-text" text="Forgot Username / Password?" />
                               <Region prefHeight="15.0" />

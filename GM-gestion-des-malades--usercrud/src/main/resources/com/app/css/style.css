@@ -1257,3 +1257,81 @@
     -fx-background-color: #5352ed;
     -fx-text-fill: white;
 }
+/* Dashboard Essential Cards */
+.dash-card {
+    -fx-border-color: #f1f5f9;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+}
+
+.icon-bg {
+    -fx-background-radius: 12;
+    -fx-min-width: 50;
+    -fx-min-height: 50;
+    -fx-max-width: 50;
+    -fx-max-height: 50;
+}
+
+.bg-blue-light { -fx-background-color: #e0e7ff; }
+.bg-purple-light { -fx-background-color: #ede9fe; }
+.bg-green-light { -fx-background-color: #d1fae5; }
+.bg-pink-light { -fx-background-color: #ffe4e6; }
+.bg-orange-light { -fx-background-color: #fef3c7; }
+
+.card-subtitle {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.card-value {
+    -fx-text-fill: #1e293b;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.card-desc {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 11px;
+}
+
+.section-title-large {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Make TableView look clean */
+.custom-table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.custom-table-view .column-header-background {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 8 8 0 0;
+}
+.custom-table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 40px;
+}
+.custom-table-view .column-header .label {
+    -fx-text-fill: #64748b;
+    -fx-font-weight: bold;
+}
+.custom-table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #f1f5f9;
+    -fx-border-width: 0 0 1 0;
+    -fx-cell-size: 45px;
+}
+.custom-table-view .table-row-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.custom-table-view .table-cell {
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 13px;
+    -fx-text-fill: #334155;
+}

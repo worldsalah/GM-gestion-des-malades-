@@ -2,19 +2,39 @@ package com.app.controller;
 
 import com.app.MainApp;
 import com.app.util.UserSession;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.scene.chart.LineChart;
+import javafx.geometry.Pos;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class DashboardController {
 
@@ -25,89 +45,228 @@ public class DashboardController {
     private double yOffset = 0;
 
     @FXML
-    private ImageView profileImage;
-
-    @FXML
-    private LineChart<String, Number> activityChart;
-
-    @FXML
-    private Label drNameLabel;
-
-    @FXML
-    private Label profileName;
-
-    @FXML
     private VBox sidebarMenu;
 
+    // --- Essential Cards ---
     @FXML
-    private Label profileSubtitle;
+    private Label totalPatientsLabel;
+    @FXML
+    private Label todayApptsLabel;
+    @FXML
+    private Label todayRevenueLabel;
+    @FXML
+    private Label treatmentsMonthLabel;
+    @FXML
+    private Label pendingPaymentsLabel;
+
+    // --- Schedule Table ---
+    @FXML
+    private TableView<ScheduleItem> scheduleTable;
+    @FXML
+    private TableColumn<ScheduleItem, String> colTime;
+    @FXML
+    private TableColumn<ScheduleItem, String> colPatient;
+    @FXML
+    private TableColumn<ScheduleItem, String> colTreatment;
+    @FXML
+    private TableColumn<ScheduleItem, String> colStatus;
+    @FXML
+    private TableColumn<ScheduleItem, Void> colAction;
+
+    // --- Analytics Charts ---
+    @FXML
+    private BarChart<String, Number> monthlyRevenueChart;
+    @FXML
+    private BarChart<String, Number> treatmentRevenueChart;
+    @FXML
+    private PieChart paymentStatusChart;
+
+    // --- Recent Activity ---
+    @FXML
+    private VBox recentActivityContainer;
 
     @FXML
     public void initialize() {
-        UserSession session = UserSession.getInstance();
-        if (session != null) {
-            // Set profile image
-            try {
-                String imagePath = session.getProfileImagePath();
-                if (imagePath != null && !imagePath.isEmpty()) {
-                    Image image = new Image("file:" + imagePath);
-                    profileImage.setImage(image);
+        // Essential Cards Setup
+        setupCards();
+
+        // Schedule Table Setup
+        setupScheduleTable();
+
+        // Charts Setup
+        setupCharts();
+
+        // Recent Activity Setup
+        setupRecentActivity();
+
+        // Ensure table fills parent
+        scheduleTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
+
+    private void setupCards() {
+        // Animate dummy values for demo purposes
+        animateCounter(totalPatientsLabel, 1284);
+        animateCounter(todayApptsLabel, 42);
+        animateCounter(todayRevenueLabel, 8560);
+        animateCounter(treatmentsMonthLabel, 340);
+        animateCounter(pendingPaymentsLabel, 15);
+    }
+
+    private void animateCounter(Label label, int targetValue) {
+        IntegerProperty countProperty = new SimpleIntegerProperty(0);
+        countProperty.addListener((obs, oldValue, newValue) -> {
+            label.setText(String.format("%,d", newValue.intValue()));
+        });
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(countProperty, 0)),
+                new KeyFrame(Duration.millis(2000), new KeyValue(countProperty, targetValue, Interpolator.EASE_OUT)));
+        timeline.play();
+    }
+
+    private void setupScheduleTable() {
+        colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        colPatient.setCellValueFactory(new PropertyValueFactory<>("patient"));
+        colTreatment.setCellValueFactory(new PropertyValueFactory<>("treatment"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        colStatus.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String status, boolean empty) {
+                super.updateItem(status, empty);
+                if (empty || status == null) {
+                    setGraphic(null);
+                    setText(null);
                 } else {
-                    var resource = getClass().getResourceAsStream("/com/app/img/profile.png");
-                    if (resource != null) {
-                        profileImage.setImage(new Image(resource));
-                    }
+                    HBox box = new HBox(8);
+                    box.setAlignment(Pos.CENTER_LEFT);
+                    Circle dot = new Circle(4);
+
+                    if (status.equalsIgnoreCase("Waiting"))
+                        dot.setStyle("-fx-fill: #f59e0b;");
+                    else if (status.equalsIgnoreCase("In Progress"))
+                        dot.setStyle("-fx-fill: #3b82f6;");
+                    else if (status.equalsIgnoreCase("Done"))
+                        dot.setStyle("-fx-fill: #10b981;");
+                    else
+                        dot.setStyle("-fx-fill: #ef4444;"); // Cancelled
+
+                    Label label = new Label(status);
+                    label.setStyle("-fx-font-weight: bold; -fx-text-fill: #475569;");
+                    box.getChildren().addAll(dot, label);
+                    setGraphic(box);
+                    setText(null);
                 }
-            } catch (Exception e) {
-                System.err.println("Could not load profile image: " + e.getMessage());
+            }
+        });
+
+        colAction.setCellFactory(column -> new TableCell<>() {
+            private final Button btn = new Button();
+            {
+                btn.getStyleClass().add("btn-primary");
+                btn.setStyle("-fx-padding: 5 15; -fx-font-size: 11px;");
             }
 
-            // Set Name and Role
-            drNameLabel
-                    .setText("Hello " + session.getRole() + " " + session.getFirstName() + " " + session.getLastName());
-            if (profileSubtitle != null) {
-                profileSubtitle.setText(session.getRole() + " - UniLearn");
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    ScheduleItem data = getTableView().getItems().get(getIndex());
+                    if (data.getStatus().equalsIgnoreCase("Done") || data.getStatus().equalsIgnoreCase("Cancelled")) {
+                        btn.setText("View");
+                        btn.setStyle(
+                                "-fx-background-color: #f1f5f9; -fx-text-fill: #64748b; -fx-padding: 5 15; -fx-font-size: 11px;");
+                    } else {
+                        btn.setText("Start");
+                        btn.setStyle(
+                                "-fx-background-color: #5352ed; -fx-text-fill: white; -fx-padding: 5 15; -fx-font-size: 11px;");
+                    }
+                    setGraphic(btn);
+                    setAlignment(Pos.CENTER);
+                }
             }
-        }
+        });
 
-        // Setup Activity Chart
-        setupActivityChart();
+        ObservableList<ScheduleItem> dummySchedule = FXCollections.observableArrayList(
+                new ScheduleItem("09:00", "Ahmed Hassan", "Filling", "Waiting"),
+                new ScheduleItem("09:30", "Sara Ali", "Extraction", "Done"),
+                new ScheduleItem("10:00", "Omar Zaki", "Checkup", "In Progress"),
+                new ScheduleItem("10:45", "Nour Said", "Cleaning", "Waiting"),
+                new ScheduleItem("11:30", "Mona Youssef", "Braces Adjust", "Cancelled"));
+        scheduleTable.setItems(dummySchedule);
     }
 
-    private void setupActivityChart() {
-        XYChart.Series<String, Number> consultations = new XYChart.Series<>();
-        consultations.setName("Consultations");
-        consultations.getData().add(new XYChart.Data<>("Jan", 130));
-        consultations.getData().add(new XYChart.Data<>("Feb", 110));
-        consultations.getData().add(new XYChart.Data<>("Mar", 150));
-        consultations.getData().add(new XYChart.Data<>("Apr", 140));
-        consultations.getData().add(new XYChart.Data<>("May", 180));
-        consultations.getData().add(new XYChart.Data<>("Jun", 160));
-        consultations.getData().add(new XYChart.Data<>("Jul", 170));
-        consultations.getData().add(new XYChart.Data<>("Aug", 150));
-        consultations.getData().add(new XYChart.Data<>("Sep", 210));
-        consultations.getData().add(new XYChart.Data<>("Oct", 190));
-        consultations.getData().add(new XYChart.Data<>("Nov", 200));
-        consultations.getData().add(new XYChart.Data<>("Dec", 180));
+    private void setupCharts() {
+        // 1. Monthly Revenue
+        XYChart.Series<String, Number> revSeries = new XYChart.Series<>();
+        revSeries.setName("Revenue");
+        revSeries.getData().add(new XYChart.Data<>("Jan", 12000));
+        revSeries.getData().add(new XYChart.Data<>("Feb", 15000));
+        revSeries.getData().add(new XYChart.Data<>("Mar", 18500));
+        revSeries.getData().add(new XYChart.Data<>("Apr", 22000));
+        revSeries.getData().add(new XYChart.Data<>("May", 17000));
+        revSeries.getData().add(new XYChart.Data<>("Jun", 24000));
+        monthlyRevenueChart.getData().add(revSeries);
 
-        XYChart.Series<String, Number> patients = new XYChart.Series<>();
-        patients.setName("Patients");
-        patients.getData().add(new XYChart.Data<>("Jan", 90));
-        patients.getData().add(new XYChart.Data<>("Feb", 80));
-        patients.getData().add(new XYChart.Data<>("Mar", 100));
-        patients.getData().add(new XYChart.Data<>("Apr", 95));
-        patients.getData().add(new XYChart.Data<>("May", 120));
-        patients.getData().add(new XYChart.Data<>("Jun", 110));
-        patients.getData().add(new XYChart.Data<>("Jul", 115));
-        patients.getData().add(new XYChart.Data<>("Aug", 100));
-        patients.getData().add(new XYChart.Data<>("Sep", 140));
-        patients.getData().add(new XYChart.Data<>("Oct", 130));
-        patients.getData().add(new XYChart.Data<>("Nov", 135));
-        patients.getData().add(new XYChart.Data<>("Dec", 120));
+        // 2. Revenue by Treatment
+        XYChart.Series<String, Number> treatSeries = new XYChart.Series<>();
+        treatSeries.setName("Treatments");
+        treatSeries.getData().add(new XYChart.Data<>("Extraction", 5000));
+        treatSeries.getData().add(new XYChart.Data<>("Filling", 8000));
+        treatSeries.getData().add(new XYChart.Data<>("Cleaning", 3500));
+        treatSeries.getData().add(new XYChart.Data<>("Braces", 15000));
+        treatSeries.getData().add(new XYChart.Data<>("Implants", 25000));
+        treatmentRevenueChart.getData().add(treatSeries);
 
-        activityChart.getData().addAll(consultations, patients);
+        // 3. Payment Status Pie Chart
+        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
+                new PieChart.Data("Paid", 75),
+                new PieChart.Data("Pending", 20),
+                new PieChart.Data("Overdue", 5));
+        paymentStatusChart.setData(pieData);
     }
 
+    private void setupRecentActivity() {
+        addActivityItem("green", "New Patient Added", "Sarah Jenkins registered today.", "10 mins ago");
+        addActivityItem("blue", "Treatment Completed", "Omar Zaki - Root Canal.", "2 hours ago");
+        addActivityItem("orange", "Payment Received", "$500 from Ali Mahmoud.", "5 hours ago");
+        addActivityItem("purple", "Appointment Updated", "Nour Said rescheduled to tomorrow.", "1 day ago");
+    }
+
+    private void addActivityItem(String colorType, String title, String desc, String time) {
+        HBox box = new HBox(15);
+        box.setAlignment(Pos.CENTER_LEFT);
+
+        Circle dot = new Circle(8);
+        if (colorType.equals("green"))
+            dot.setStyle("-fx-fill: #10b981;");
+        else if (colorType.equals("blue"))
+            dot.setStyle("-fx-fill: #3b82f6;");
+        else if (colorType.equals("orange"))
+            dot.setStyle("-fx-fill: #f59e0b;");
+        else
+            dot.setStyle("-fx-fill: #8b5cf6;");
+
+        VBox textVBox = new VBox(3);
+        Label titleLbl = new Label(title);
+        titleLbl.setStyle("-fx-font-weight: bold; -fx-text-fill: #1e293b;");
+        Label descLbl = new Label(desc);
+        descLbl.setStyle("-fx-text-fill: #64748b; -fx-font-size: 12px;");
+        textVBox.getChildren().addAll(titleLbl, descLbl);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+
+        Label timeLbl = new Label(time);
+        timeLbl.setStyle("-fx-text-fill: #94a3b8; -fx-font-size: 11px;");
+
+        box.getChildren().addAll(dot, textVBox, spacer, timeLbl);
+        recentActivityContainer.getChildren().add(box);
+    }
+
+    // --- Navigation & Window Handling ---
     @FXML
     public void logoutAction(MouseEvent event) {
         UserSession.cleanUserSession();
@@ -183,5 +342,36 @@ public class DashboardController {
     @FXML
     public void handleClose(ActionEvent event) {
         MainApp.closeApp();
+    }
+
+    // Inner class for Table Data
+    public static class ScheduleItem {
+        private String time;
+        private String patient;
+        private String treatment;
+        private String status;
+
+        public ScheduleItem(String time, String patient, String treatment, String status) {
+            this.time = time;
+            this.patient = patient;
+            this.treatment = treatment;
+            this.status = status;
+        }
+
+        public String getTime() {
+            return time;
+        }
+
+        public String getPatient() {
+            return patient;
+        }
+
+        public String getTreatment() {
+            return treatment;
+        }
+
+        public String getStatus() {
+            return status;
+        }
     }
 }
