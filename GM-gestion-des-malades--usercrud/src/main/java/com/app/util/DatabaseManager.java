@@ -22,6 +22,10 @@ public class DatabaseManager {
                     Connection connection = DriverManager.getConnection(dbUrl, USER, password);
                     System.out.println("✅ Database connected successfully! Port: " + port + ", Pass: "
                             + (password.isEmpty() ? "<empty>" : password));
+
+                    // Automatically run schema updates for Advanced Appointments feature
+                    applySchemaUpdates(connection);
+
                     return connection;
                 } catch (SQLException e) {
                     lastException = e;
@@ -33,5 +37,30 @@ public class DatabaseManager {
             throw lastException;
         }
         return null;
+    }
+
+    private static void applySchemaUpdates(Connection conn) {
+        try {
+            // Check and add 'priority' column
+            var rs = conn.getMetaData().getColumns(null, null, "appointments", "priority");
+            if (!rs.next()) {
+                System.out.println("🔧 Adding 'priority' column to 'appointments' table...");
+                conn.createStatement()
+                        .execute("ALTER TABLE appointments ADD COLUMN priority VARCHAR(20) DEFAULT 'Normal'");
+            }
+            rs.close();
+
+            // Check and add 'recurrence' column
+            rs = conn.getMetaData().getColumns(null, null, "appointments", "recurrence");
+            if (!rs.next()) {
+                System.out.println("🔧 Adding 'recurrence' column to 'appointments' table...");
+                conn.createStatement()
+                        .execute("ALTER TABLE appointments ADD COLUMN recurrence VARCHAR(20) DEFAULT 'None'");
+            }
+            rs.close();
+
+        } catch (SQLException e) {
+            System.err.println("⚠️ Error applying schema updates: " + e.getMessage());
+        }
     }
 }

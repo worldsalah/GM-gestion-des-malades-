@@ -653,4 +653,72 @@ public class PatientController {
             return createdAt.get();
         }
     }
+
+    @javafx.fxml.FXML
+    public void navDashboard(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("dashboard");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load dashboard: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navPatients(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("patients");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load patients: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navAppointments(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("appointments");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load appointments: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navTasks(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("tasks");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load tasks: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navProfile(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("profile");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load profile: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navLogout(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("login");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load login: " + e.getMessage());
+        }
+    }
+
+    private void showError(String title, String content) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

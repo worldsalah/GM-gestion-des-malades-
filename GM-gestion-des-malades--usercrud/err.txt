@@ -1,0 +1,473 @@
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:3: error: cannot find symbol
+import com.app.MainApp;
+              ^
+  symbol:   class MainApp
+  location: package com.app
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:4: error: package com.app.util does not exist
+import com.app.util.DatabaseManager;
+                   ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:5: error: package javafx.collections does not exist
+import javafx.collections.FXCollections;
+                         ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:6: error: package javafx.collections does not exist
+import javafx.collections.ObservableList;
+                         ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:7: error: package javafx.event does not exist
+import javafx.event.ActionEvent;
+                   ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:8: error: package javafx.event does not exist
+import javafx.event.Event;
+                   ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:9: error: package javafx.fxml does not exist
+import javafx.fxml.FXML;
+                  ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:10: error: package javafx.geometry does not exist
+import javafx.geometry.Pos;
+                      ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:12: error: package javafx.scene.input does not exist
+import javafx.scene.input.MouseEvent;
+                         ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:14: error: package javafx.stage does not exist
+import javafx.stage.Stage;
+                   ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:15: error: package javafx.beans.property does not exist
+import javafx.beans.property.SimpleIntegerProperty;
+                            ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:16: error: package javafx.beans.property does not exist
+import javafx.beans.property.SimpleStringProperty;
+                            ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:33: error: cannot find symbol
+    private AnchorPane rootPane;
+            ^
+  symbol:   class AnchorPane
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:37: error: cannot find symbol
+    private Label monthYearLabel;
+            ^
+  symbol:   class Label
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:39: error: cannot find symbol
+    private GridPane calendarGrid;
+            ^
+  symbol:   class GridPane
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:43: error: cannot find symbol
+    private VBox appointmentListPanel;
+            ^
+  symbol:   class VBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:45: error: cannot find symbol
+    private VBox appointmentFormPanel;
+            ^
+  symbol:   class VBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:49: error: cannot find symbol
+    private ComboBox<String> patientCombo;
+            ^
+  symbol:   class ComboBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:51: error: cannot find symbol
+    private DatePicker appointmentDatePicker;
+            ^
+  symbol:   class DatePicker
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:53: error: cannot find symbol
+    private ComboBox<String> timePicker;
+            ^
+  symbol:   class ComboBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:55: error: cannot find symbol
+    private ComboBox<String> statusCombo;
+            ^
+  symbol:   class ComboBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:57: error: cannot find symbol
+    private ComboBox<String> priorityCombo;
+            ^
+  symbol:   class ComboBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:59: error: cannot find symbol
+    private ComboBox<String> recurrenceCombo;
+            ^
+  symbol:   class ComboBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:61: error: cannot find symbol
+    private TextField reasonField;
+            ^
+  symbol:   class TextField
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:63: error: cannot find symbol
+    private TextArea notesArea;
+            ^
+  symbol:   class TextArea
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:65: error: cannot find symbol
+    private Label formTitleLabel;
+            ^
+  symbol:   class Label
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:67: error: cannot find symbol
+    private Button saveBtn;
+            ^
+  symbol:   class Button
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:71: error: cannot find symbol
+    private Label selectedDayLabel;
+            ^
+  symbol:   class Label
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:73: error: cannot find symbol
+    private VBox dayAppointmentsList;
+            ^
+  symbol:   class VBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:161: error: cannot find symbol
+    private VBox buildDayCell(LocalDate date, int column) {
+            ^
+  symbol:   class VBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:208: error: cannot find symbol
+    public void prevMonth(ActionEvent e) {
+                          ^
+  symbol:   class ActionEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:215: error: cannot find symbol
+    public void nextMonth(ActionEvent e) {
+                          ^
+  symbol:   class ActionEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:222: error: cannot find symbol
+    public void goToday(ActionEvent e) {
+                        ^
+  symbol:   class ActionEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:250: error: cannot find symbol
+    private HBox buildAppointmentRow(Appointment a) {
+            ^
+  symbol:   class HBox
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:306: error: cannot find symbol
+    public void showNewAppointmentForm(ActionEvent e) {
+                                       ^
+  symbol:   class ActionEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:340: error: cannot find symbol
+    public void cancelForm(ActionEvent e) {
+                           ^
+  symbol:   class ActionEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:346: error: cannot find symbol
+    public void saveAppointment(ActionEvent e) {
+                                ^
+  symbol:   class ActionEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:660: error: cannot find symbol
+    public void goToDashboard(MouseEvent e) {
+                              ^
+  symbol:   class MouseEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:669: error: cannot find symbol
+    public void goToPatients(MouseEvent e) {
+                             ^
+  symbol:   class MouseEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:678: error: cannot find symbol
+    public void openProfilePage(MouseEvent e) {
+                                ^
+  symbol:   class MouseEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:687: error: cannot find symbol
+    public void logoutAction(MouseEvent e) {
+                             ^
+  symbol:   class MouseEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:697: error: cannot find symbol
+    public void openTasksPage(Event event) {
+                              ^
+  symbol:   class Event
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:706: error: cannot find symbol
+    public void onWindowPressed(MouseEvent e) {
+                                ^
+  symbol:   class MouseEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:712: error: cannot find symbol
+    public void onWindowDragged(MouseEvent e) {
+                                ^
+  symbol:   class MouseEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:721: error: cannot find symbol
+    public void handleMinimize(ActionEvent e) {
+                               ^
+  symbol:   class ActionEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:726: error: cannot find symbol
+    public void handleMaximize(ActionEvent e) {
+                               ^
+  symbol:   class ActionEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:731: error: cannot find symbol
+    public void handleClose(ActionEvent e) {
+                            ^
+  symbol:   class ActionEvent
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:737: error: cannot find symbol
+        private final SimpleIntegerProperty id;
+                      ^
+  symbol:   class SimpleIntegerProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:738: error: cannot find symbol
+        private final SimpleIntegerProperty patientId;
+                      ^
+  symbol:   class SimpleIntegerProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:739: error: cannot find symbol
+        private final SimpleStringProperty patientName;
+                      ^
+  symbol:   class SimpleStringProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:740: error: cannot find symbol
+        private final SimpleStringProperty date;
+                      ^
+  symbol:   class SimpleStringProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:741: error: cannot find symbol
+        private final SimpleStringProperty time;
+                      ^
+  symbol:   class SimpleStringProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:742: error: cannot find symbol
+        private final SimpleStringProperty reason;
+                      ^
+  symbol:   class SimpleStringProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:743: error: cannot find symbol
+        private final SimpleStringProperty status;
+                      ^
+  symbol:   class SimpleStringProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:744: error: cannot find symbol
+        private final SimpleStringProperty priority;
+                      ^
+  symbol:   class SimpleStringProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:745: error: cannot find symbol
+        private final SimpleStringProperty recurrence;
+                      ^
+  symbol:   class SimpleStringProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:746: error: cannot find symbol
+        private final SimpleStringProperty notes;
+                      ^
+  symbol:   class SimpleStringProperty
+  location: class Appointment
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:11: error: package javafx.scene.control does not exist
+import javafx.scene.control.*;
+                   ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:13: error: package javafx.scene.layout does not exist
+import javafx.scene.layout.*;
+                   ^
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:32: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:36: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:38: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:42: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:44: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:48: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:50: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:52: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:54: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:56: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:58: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:60: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:62: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:64: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:66: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:70: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:72: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:88: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:207: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:214: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:221: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:305: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:339: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:345: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:659: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:668: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:677: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:686: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:696: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:705: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:711: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:720: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:725: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:730: error: cannot find symbol
+    @FXML
+     ^
+  symbol:   class FXML
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:91: error: cannot find symbol
+        statusCombo.setItems(FXCollections.observableArrayList(
+                             ^
+  symbol:   variable FXCollections
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:94: error: cannot find symbol
+        priorityCombo.setItems(FXCollections.observableArrayList(
+                               ^
+  symbol:   variable FXCollections
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:97: error: cannot find symbol
+        recurrenceCombo.setItems(FXCollections.observableArrayList(
+                                 ^
+  symbol:   variable FXCollections
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:102: error: cannot find symbol
+        appointmentDatePicker.setDayCellFactory(picker -> new DateCell() {
+                                                              ^
+  symbol:   class DateCell
+  location: class AppointmentController
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:104: error: cannot find symbol
+                super.updateItem(date, empty);
+                     ^
+  symbol: method updateItem(LocalDate,boolean)
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:110: error: cannot find symbol
+                    setDisable(true);
+                    ^
+  symbol: method setDisable(boolean)
+c:\Users\salah\Downloads\GM-gestion-des-malades--usercrud\GM-gestion-des-malades--usercrud\src\main\java\com\app\controller\AppointmentController.java:111: error: cannot find symbol
+                    setStyle("-fx-background-color: #ffc0cb;");
+                    ^
+  symbol: method setStyle(String)
+100 errors
+only showing the first 100 errors, of 185 total; use -Xmaxerrs if you would like to see more

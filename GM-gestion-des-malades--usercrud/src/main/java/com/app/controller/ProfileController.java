@@ -32,13 +32,10 @@ public class ProfileController {
     private ImageView profileImage;
 
     @FXML
-    private Label nameLabel;
+    private Label nameLabelTop;
 
     @FXML
-    private Label roleLabel;
-
-    @FXML
-    private Label usernameVal;
+    private TextField usernameVal;
 
     @FXML
     private TextField firstNameField;
@@ -69,10 +66,11 @@ public class ProfileController {
     private void loadUserData() {
         UserSession session = UserSession.getInstance();
         if (session != null) {
-            nameLabel.setText(session.getFirstName() + " " + session.getLastName());
-            roleLabel.setText(session.getRole() + " - UniLearn");
-            usernameVal.setText("@" + session.getUsername());
+            String fullName = session.getFirstName() + " " + session.getLastName();
+            if (nameLabelTop != null)
+                nameLabelTop.setText("Dr. " + fullName);
 
+            usernameVal.setText(session.getUsername());
             firstNameField.setText(session.getFirstName());
             lastNameField.setText(session.getLastName());
             emailField.setText(session.getEmail());
@@ -147,7 +145,7 @@ public class ProfileController {
             return;
         }
 
-        String query = "UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ?, sexe = ?, role = ? WHERE username = ?";
+        String query = "UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ?, gender = ?, role = ? WHERE username = ?";
         try (Connection conn = DatabaseManager.getConnection();
                 PreparedStatement pst = conn.prepareStatement(query)) {
 
@@ -171,8 +169,9 @@ public class ProfileController {
                 session.setRole(role);
 
                 // Update UI Labels
-                nameLabel.setText(firstName + " " + lastName);
-                roleLabel.setText(role + " - UniLearn");
+                String fullName = firstName + " " + lastName;
+                if (nameLabelTop != null)
+                    nameLabelTop.setText("Dr. " + fullName);
 
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Profile updated successfully!");
             }
@@ -264,5 +263,59 @@ public class ProfileController {
     @FXML
     public void handleClose(ActionEvent event) {
         MainApp.closeApp();
+    }
+
+    @javafx.fxml.FXML
+    public void navDashboard(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("dashboard");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navPatients(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("patients");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navAppointments(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("appointments");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navTasks(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("tasks");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navProfile(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("profile");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navLogout(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("login");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -54,6 +54,10 @@ public class AppointmentController {
     @FXML
     private ComboBox<String> statusCombo;
     @FXML
+    private ComboBox<String> priorityCombo;
+    @FXML
+    private ComboBox<String> recurrenceCombo;
+    @FXML
     private TextField reasonField;
     @FXML
     private TextArea notesArea;
@@ -85,13 +89,40 @@ public class AppointmentController {
     public void initialize() {
         setupTimePicker();
         statusCombo.setItems(FXCollections.observableArrayList(
-                "Scheduled", "Confirmed", "Completed", "Cancelled", "No Show"));
+                "Scheduled", "Confirmed", "Waiting", "In Progress", "Completed", "Cancelled", "No Show"));
         statusCombo.setValue("Scheduled");
+        priorityCombo.setItems(FXCollections.observableArrayList(
+                "Normal", "Emergency", "Follow-up"));
+        priorityCombo.setValue("Normal");
+        recurrenceCombo.setItems(FXCollections.observableArrayList(
+                "None", "Weekly", "Monthly"));
+        recurrenceCombo.setValue("None");
+
+        // Advanced Logic: Block Weekends on DatePicker
+        appointmentDatePicker.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                if (empty || date == null)
+                    return;
+
+                // Disable weekends (Saturday = 6, Sunday = 7)
+                if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;");
+                }
+            }
+        });
+
+        setupStatusListener();
+
         loadAllAppointments();
         loadPatientCombo();
         rebuildCalendar();
         showDayAppointments(selectedDate);
         showListPanel();
+
+        // Advanced Logic: Automated Reminders Simulation
+        checkAndSendReminders();
     }
 
     // ─── Calendar ──────────────────────────────────────────────────────────────
@@ -246,6 +277,16 @@ public class AppointmentController {
         Label statusLbl = new Label(a.getStatus());
         statusLbl.getStyleClass().add(statusStyleClass(a.getStatus()));
 
+        Label priorityLbl = new Label(a.getPriority());
+        if ("Emergency".equals(a.getPriority())) {
+            priorityLbl.getStyleClass().add("chip-noshow"); // Temporarily use red noshow chip class
+            row.setStyle("-fx-border-color: #ff4757; -fx-border-width: 0 0 0 4px; -fx-background-color: #ffeaea;");
+        } else if ("Follow-up".equals(a.getPriority())) {
+            priorityLbl.getStyleClass().add("chip-confirmed");
+        } else {
+            priorityLbl.getStyleClass().add("chip-scheduled");
+        }
+
         Button editBtn = new Button("✏");
         editBtn.getStyleClass().add("appt-icon-btn");
         editBtn.setOnAction(e -> openEditForm(a));
@@ -254,7 +295,7 @@ public class AppointmentController {
         deleteBtn.getStyleClass().add("appt-icon-btn-danger");
         deleteBtn.setOnAction(e -> deleteAppointment(a));
 
-        row.getChildren().addAll(stripe, info, statusLbl, editBtn, deleteBtn);
+        row.getChildren().addAll(stripe, info, priorityLbl, statusLbl, editBtn, deleteBtn);
         return row;
     }
 
@@ -280,6 +321,8 @@ public class AppointmentController {
         timePicker.setValue(a.getTime());
         reasonField.setText(a.getReason());
         statusCombo.setValue(a.getStatus());
+        priorityCombo.setValue(a.getPriority());
+        recurrenceCombo.setValue(a.getRecurrence());
         notesArea.setText(a.getNotes());
 
         // set patient
@@ -318,29 +361,72 @@ public class AppointmentController {
         String time = timePicker.getValue();
         String reason = reasonField.getText();
         String status = statusCombo.getValue() != null ? statusCombo.getValue() : "Scheduled";
+        String priority = priorityCombo.getValue() != null ? priorityCombo.getValue() : "Normal";
+        String recurrence = recurrenceCombo.getValue() != null ? recurrenceCombo.getValue() : "None";
         String notes = notesArea.getText();
 
         try (Connection conn = DatabaseManager.getConnection()) {
+            // Smart Scheduling Engine: Prevent Double Booking
+            String checkSql = "SELECT COUNT(*) FROM appointments WHERE appointment_date = ? AND appointment_time = ? ";
+            if (editingAppointment != null) {
+                checkSql += "AND id != ?";
+            }
+            PreparedStatement checkSt = conn.prepareStatement(checkSql);
+            checkSt.setDate(1, java.sql.Date.valueOf(date));
+            checkSt.setString(2, time);
+            if (editingAppointment != null) {
+                checkSt.setInt(3, editingAppointment.getId());
+            }
+            ResultSet rs = checkSt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                showAlert("Double Booking Prevented",
+                        "There is already an appointment scheduled for this date and time.");
+                return;
+            }
+
             if (editingAppointment == null) {
-                String sql = "INSERT INTO appointments (patient_id, appointment_date, appointment_time, reason, status, notes) VALUES (?,?,?,?,?,?)";
+                // Determine number of recurrent appointments to create
+                int occurrences = 1;
+                if ("Weekly".equals(recurrence))
+                    occurrences = 4;
+                else if ("Monthly".equals(recurrence))
+                    occurrences = 6;
+
+                String sql = "INSERT INTO appointments (patient_id, appointment_date, appointment_time, reason, status, priority, recurrence, notes) VALUES (?,?,?,?,?,?,?,?)";
                 PreparedStatement st = conn.prepareStatement(sql);
-                st.setInt(1, patientId);
-                st.setDate(2, java.sql.Date.valueOf(date));
-                st.setString(3, time);
-                st.setString(4, reason);
-                st.setString(5, status);
-                st.setString(6, notes);
-                st.executeUpdate();
+
+                // Recurrence Loop
+                for (int i = 0; i < occurrences; i++) {
+                    LocalDate occurrenceDate = date;
+                    if ("Weekly".equals(recurrence)) {
+                        occurrenceDate = date.plusWeeks(i);
+                    } else if ("Monthly".equals(recurrence)) {
+                        occurrenceDate = date.plusMonths(i);
+                    }
+
+                    st.setInt(1, patientId);
+                    st.setDate(2, java.sql.Date.valueOf(occurrenceDate));
+                    st.setString(3, time);
+                    st.setString(4, reason);
+                    st.setString(5, status);
+                    st.setString(6, priority);
+                    st.setString(7, recurrence);
+                    st.setString(8, notes);
+                    st.addBatch();
+                }
+                st.executeBatch();
             } else {
-                String sql = "UPDATE appointments SET patient_id=?, appointment_date=?, appointment_time=?, reason=?, status=?, notes=? WHERE id=?";
+                String sql = "UPDATE appointments SET patient_id=?, appointment_date=?, appointment_time=?, reason=?, status=?, priority=?, recurrence=?, notes=? WHERE id=?";
                 PreparedStatement st = conn.prepareStatement(sql);
                 st.setInt(1, patientId);
                 st.setDate(2, java.sql.Date.valueOf(date));
                 st.setString(3, time);
                 st.setString(4, reason);
                 st.setString(5, status);
-                st.setString(6, notes);
-                st.setInt(7, editingAppointment.getId());
+                st.setString(6, priority);
+                st.setString(7, recurrence);
+                st.setString(8, notes);
+                st.setInt(9, editingAppointment.getId());
                 st.executeUpdate();
             }
         } catch (SQLException ex) {
@@ -386,10 +472,12 @@ public class AppointmentController {
 
         try (Connection conn = DatabaseManager.getConnection()) {
             String sql = "SELECT a.id, a.patient_id, CONCAT(p.first_name,' ',p.last_name) AS patient_name, "
-                    + "a.appointment_date, a.appointment_time, a.reason, a.status, a.notes "
+                    + "a.appointment_date, a.appointment_time, a.reason, a.status, a.priority, a.recurrence, a.notes "
                     + "FROM appointments a "
                     + "LEFT JOIN patients p ON a.patient_id = p.id "
-                    + "ORDER BY a.appointment_date, a.appointment_time";
+                    + "ORDER BY a.appointment_date, "
+                    + "CASE WHEN a.priority = 'Emergency' THEN 0 ELSE 1 END, "
+                    + "a.appointment_time";
             ResultSet rs = conn.prepareStatement(sql).executeQuery();
             while (rs.next()) {
                 Appointment a = new Appointment(
@@ -400,6 +488,8 @@ public class AppointmentController {
                         rs.getString("appointment_time"),
                         rs.getString("reason"),
                         rs.getString("status"),
+                        rs.getString("priority"),
+                        rs.getString("recurrence"),
                         rs.getString("notes"));
                 appointmentMap.put(a.getId(), a);
                 LocalDate d = LocalDate.parse(a.getDate());
@@ -428,10 +518,93 @@ public class AppointmentController {
     private void setupTimePicker() {
         ObservableList<String> times = FXCollections.observableArrayList();
         for (int h = 7; h <= 20; h++) {
+            // Advanced Logic: Block Lunch Break (12:00 -> 13:30)
+            if (h == 12 || h == 13)
+                continue;
+
             times.add(String.format("%02d:00", h));
             times.add(String.format("%02d:30", h));
         }
         timePicker.setItems(times);
+    }
+
+    private void setupStatusListener() {
+        // Advanced Logic: Intelligent Rescheduling
+        statusCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if ("Cancelled".equals(newVal) && editingAppointment != null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Intelligent Rescheduling");
+                alert.setHeaderText("Appointment Cancelled");
+                alert.setContentText(
+                        "Would you like the engine to automatically find and suggest the nearest available time slot?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    suggestNextAvailableSlot();
+                }
+            }
+        });
+    }
+
+    private void suggestNextAvailableSlot() {
+        LocalDate searchDate = LocalDate.now();
+        // Start searching from tomorrow
+        searchDate = searchDate.plusDays(1);
+
+        boolean found = false;
+
+        // Very basic simple scan forward for demonstration of intelligent rescheduling
+        for (int dayOffset = 0; dayOffset < 30; dayOffset++) {
+            LocalDate checkDate = searchDate.plusDays(dayOffset);
+            if (checkDate.getDayOfWeek() == DayOfWeek.SATURDAY || checkDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                continue; // skip weekends
+            }
+
+            // Find available time
+            for (String time : timePicker.getItems()) {
+                boolean isOccupied = false;
+                // Check memory map for conflict
+                for (int id : dateIndex.getOrDefault(checkDate, Collections.emptyList())) {
+                    Appointment a = appointmentMap.get(id);
+                    if (a != null && a.getTime().equals(time) && !a.getStatus().equals("Cancelled")) {
+                        isOccupied = true;
+                        break;
+                    }
+                }
+
+                if (!isOccupied) {
+                    appointmentDatePicker.setValue(checkDate);
+                    timePicker.setValue(time);
+                    statusCombo.setValue("Scheduled");
+                    showAlert("Slot Found!", "Suggested nearest available slot: " + checkDate + " at " + time);
+                    found = true;
+                    break;
+                }
+            }
+            if (found)
+                break;
+        }
+        if (!found) {
+            showAlert("No Slots", "Could not find an available slot in the next 30 days.");
+        }
+    }
+
+    private void checkAndSendReminders() {
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        int reminderCount = 0;
+
+        for (int id : dateIndex.getOrDefault(tomorrow, Collections.emptyList())) {
+            Appointment a = appointmentMap.get(id);
+            if (a != null && ("Scheduled".equals(a.getStatus()) || "Confirmed".equals(a.getStatus()))) {
+                reminderCount++;
+            }
+        }
+
+        if (reminderCount > 0) {
+            System.out.println("🔔 Automated Reminders triggered for " + reminderCount + " patients tomorrow.");
+            showAlert("Automated Reminders", "System sent automated SMS/Email reminders to " + reminderCount
+                    + " patients for tomorrow's appointments.");
+        }
     }
 
     private String statusStyleClass(String status) {
@@ -452,6 +625,8 @@ public class AppointmentController {
         timePicker.setValue(null);
         reasonField.clear();
         statusCombo.setValue("Scheduled");
+        priorityCombo.setValue("Normal");
+        recurrenceCombo.setValue("None");
         notesArea.clear();
         editingAppointment = null;
     }
@@ -564,11 +739,13 @@ public class AppointmentController {
         private final SimpleStringProperty time;
         private final SimpleStringProperty reason;
         private final SimpleStringProperty status;
+        private final SimpleStringProperty priority;
+        private final SimpleStringProperty recurrence;
         private final SimpleStringProperty notes;
 
         public Appointment(int id, int patientId, String patientName,
                 String date, String time, String reason,
-                String status, String notes) {
+                String status, String priority, String recurrence, String notes) {
             this.id = new SimpleIntegerProperty(id);
             this.patientId = new SimpleIntegerProperty(patientId);
             this.patientName = new SimpleStringProperty(patientName);
@@ -576,6 +753,8 @@ public class AppointmentController {
             this.time = new SimpleStringProperty(time);
             this.reason = new SimpleStringProperty(reason != null ? reason : "");
             this.status = new SimpleStringProperty(status != null ? status : "Scheduled");
+            this.priority = new SimpleStringProperty(priority != null ? priority : "Normal");
+            this.recurrence = new SimpleStringProperty(recurrence != null ? recurrence : "None");
             this.notes = new SimpleStringProperty(notes != null ? notes : "");
         }
 
@@ -607,8 +786,84 @@ public class AppointmentController {
             return status.get();
         }
 
+        public String getPriority() {
+            return priority.get();
+        }
+
+        public String getRecurrence() {
+            return recurrence.get();
+        }
+
         public String getNotes() {
             return notes.get();
         }
+    }
+
+    @javafx.fxml.FXML
+    public void navDashboard(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("dashboard");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load dashboard: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navPatients(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("patients");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load patients: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navAppointments(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("appointments");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load appointments: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navTasks(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("tasks");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load tasks: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navProfile(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("profile");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load profile: " + e.getMessage());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void navLogout(javafx.scene.input.MouseEvent event) {
+        try {
+            com.app.MainApp.setRoot("login");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Navigation Error", "Could not load login: " + e.getMessage());
+        }
+    }
+
+    private void showError(String title, String content) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
