@@ -10,6 +10,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -17,11 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,6 +33,13 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
+import com.app.util.DatabaseManager;
+import java.time.LocalDate;
 
 public class DashboardController {
 
@@ -81,6 +86,13 @@ public class DashboardController {
     @FXML
     private PieChart paymentStatusChart;
 
+    // --- Search ---
+    @FXML
+    private TextField searchField;
+
+    private ObservableList<ScheduleItem> masterData = FXCollections.observableArrayList();
+    private FilteredList<ScheduleItem> filteredData;
+
     // --- Recent Activity ---
     @FXML
     private VBox recentActivityContainer;
@@ -104,12 +116,23 @@ public class DashboardController {
     }
 
     private void setupCards() {
-        // Animate dummy values for demo purposes
-        animateCounter(totalPatientsLabel, 1284);
-        animateCounter(todayApptsLabel, 42);
-        animateCounter(todayRevenueLabel, 8560);
-        animateCounter(treatmentsMonthLabel, 340);
-        animateCounter(pendingPaymentsLabel, 15);
+        // Load real statistics from DatabaseManager
+        animateCounter(totalPatientsLabel, DatabaseManager.getTotalPatients());
+        animateCounter(todayApptsLabel, DatabaseManager.getTodayAppointmentsCount());
+
+        // Revenue counter with $ formatting
+        double revenue = DatabaseManager.getTodayRevenue();
+        IntegerProperty countProperty = new SimpleIntegerProperty(0);
+        countProperty.addListener((obs, oldValue, newValue) -> {
+            todayRevenueLabel.setText(String.format("%,d", newValue.intValue()));
+        });
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(countProperty, 0)),
+                new KeyFrame(Duration.millis(2000), new KeyValue(countProperty, (int) revenue, Interpolator.EASE_OUT)));
+        timeline.play();
+
+        animateCounter(treatmentsMonthLabel, DatabaseManager.getMonthlyTreatments());
+        animateCounter(pendingPaymentsLabel, 0); // Placeholder for now
     }
 
     private void animateCounter(Label label, int targetValue) {
@@ -129,6 +152,32 @@ public class DashboardController {
         colPatient.setCellValueFactory(new PropertyValueFactory<>("patient"));
         colTreatment.setCellValueFactory(new PropertyValueFactory<>("treatment"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        // Initialize FilteredList with masterData
+        filteredData = new FilteredList<>(masterData, p -> true);
+
+        // Add search listener
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(item -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (item.getPatient().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (item.getTreatment().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (item.getStatus().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        // Wrap in SortedList for sorting support
+        SortedList<ScheduleItem> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(scheduleTable.comparatorProperty());
+        scheduleTable.setItems(sortedData);
 
         colStatus.setCellFactory(column -> new TableCell<>() {
             @Override
@@ -174,28 +223,113 @@ public class DashboardController {
                     setGraphic(null);
                 } else {
                     ScheduleItem data = getTableView().getItems().get(getIndex());
-                    if (data.getStatus().equalsIgnoreCase("Done") || data.getStatus().equalsIgnoreCase("Cancelled")) {
-                        btn.setText("View");
-                        btn.setStyle(
-                                "-fx-background-color: #f1f5f9; -fx-text-fill: #64748b; -fx-padding: 5 15; -fx-font-size: 11px;");
-                    } else {
+                    String status = data.getStatus();
+
+                    if (status.equalsIgnoreCase("Waiting")) {
                         btn.setText("Start");
                         btn.setStyle(
                                 "-fx-background-color: #5352ed; -fx-text-fill: white; -fx-padding: 5 15; -fx-font-size: 11px;");
+                        btn.setDisable(false);
+                    } else if (status.equalsIgnoreCase("In Progress")) {
+                        btn.setText("Finish");
+                        btn.setStyle(
+                                "-fx-background-color: #10b981; -fx-text-fill: white; -fx-padding: 5 15; -fx-font-size: 11px;");
+                        btn.setDisable(false);
+                    } else {
+                        btn.setText("Done");
+                        btn.setStyle(
+                                "-fx-background-color: #f1f5f9; -fx-text-fill: #64748b; -fx-padding: 5 15; -fx-font-size: 11px;");
+                        btn.setDisable(true);
                     }
+
                     setGraphic(btn);
                     setAlignment(Pos.CENTER);
+
+                    btn.setOnAction(event -> {
+                        handleStatusTransition(data);
+                    });
+                }
+            }
+
+            private void handleStatusTransition(ScheduleItem item) {
+                String currentStatus = item.getStatus();
+                String nextStatus = "";
+
+                if (currentStatus.equalsIgnoreCase("Waiting")) {
+                    nextStatus = "In Progress";
+                } else if (currentStatus.equalsIgnoreCase("In Progress")) {
+                    nextStatus = "Done";
+                } else {
+                    return; // Already Done or Cancelled
+                }
+
+                if (nextStatus.equals("Done")) {
+                    TextInputDialog dialog = new TextInputDialog("0.00");
+                    dialog.setTitle("Record Charge");
+                    dialog.setHeaderText("Appointment Completed for " + item.getPatient());
+                    dialog.setContentText("Enter charge amount ($):");
+
+                    Optional<String> result = dialog.showAndWait();
+                    if (result.isPresent()) {
+                        try {
+                            double amount = Double.parseDouble(result.get());
+                            updateAppointmentStatusAndCharge(item.getId(), "Done", amount);
+                        } catch (NumberFormatException e) {
+                            showError("Invalid Input", "Please enter a valid numeric amount.");
+                            return;
+                        }
+                    } else {
+                        return; // User cancelled the dialog
+                    }
+                } else {
+                    updateAppointmentStatusAndCharge(item.getId(), nextStatus, 0.0);
+                }
+
+                // Refresh table and cards
+                setupScheduleTable();
+                setupCards();
+            }
+
+            private void updateAppointmentStatusAndCharge(int appointmentId, String status, double charge) {
+                String sql = "UPDATE appointments SET status = ?, charge_amount = ? WHERE id = ?";
+                try (Connection conn = DatabaseManager.getConnection();
+                        PreparedStatement st = conn.prepareStatement(sql)) {
+                    st.setString(1, status);
+                    st.setDouble(2, charge);
+                    st.setInt(3, appointmentId);
+                    st.executeUpdate();
+                } catch (SQLException e) {
+                    showError("Database Error", "Failed to update appointment: " + e.getMessage());
                 }
             }
         });
 
-        ObservableList<ScheduleItem> dummySchedule = FXCollections.observableArrayList(
-                new ScheduleItem("09:00", "Ahmed Hassan", "Filling", "Waiting"),
-                new ScheduleItem("09:30", "Sara Ali", "Extraction", "Done"),
-                new ScheduleItem("10:00", "Omar Zaki", "Checkup", "In Progress"),
-                new ScheduleItem("10:45", "Nour Said", "Cleaning", "Waiting"),
-                new ScheduleItem("11:30", "Mona Youssef", "Braces Adjust", "Cancelled"));
-        scheduleTable.setItems(dummySchedule);
+        loadTodaySchedule();
+    }
+
+    private void loadTodaySchedule() {
+        masterData.clear();
+        String sql = "SELECT a.id, a.appointment_time, CONCAT(p.first_name, ' ', p.last_name) as patient_name, a.reason, a.status "
+                + "FROM appointments a " +
+                "JOIN patients p ON a.patient_id = p.id " +
+                "WHERE a.appointment_date = CURRENT_DATE " +
+                "ORDER BY a.appointment_time ASC";
+
+        try (Connection conn = DatabaseManager.getConnection();
+                PreparedStatement st = conn.prepareStatement(sql);
+                ResultSet rs = st.executeQuery()) {
+
+            while (rs.next()) {
+                masterData.add(new ScheduleItem(
+                        rs.getInt("id"),
+                        rs.getString("appointment_time"),
+                        rs.getString("patient_name"),
+                        rs.getString("reason"),
+                        rs.getString("status")));
+            }
+        } catch (SQLException e) {
+            showError("Database Error", "Failed to load schedule: " + e.getMessage());
+        }
     }
 
     private void setupCharts() {
@@ -346,16 +480,22 @@ public class DashboardController {
 
     // Inner class for Table Data
     public static class ScheduleItem {
+        private int id;
         private String time;
         private String patient;
         private String treatment;
         private String status;
 
-        public ScheduleItem(String time, String patient, String treatment, String status) {
+        public ScheduleItem(int id, String time, String patient, String treatment, String status) {
+            this.id = id;
             this.time = time;
             this.patient = patient;
             this.treatment = treatment;
             this.status = status;
+        }
+
+        public int getId() {
+            return id;
         }
 
         public String getTime() {

@@ -2,6 +2,8 @@ package com.app.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseManager {
@@ -59,8 +61,71 @@ public class DatabaseManager {
             }
             rs.close();
 
+            // Check and add 'charge_amount' column
+            rs = conn.getMetaData().getColumns(null, null, "appointments", "charge_amount");
+            if (!rs.next()) {
+                System.out.println("🔧 Adding 'charge_amount' column to 'appointments' table...");
+                conn.createStatement()
+                        .execute("ALTER TABLE appointments ADD COLUMN charge_amount DECIMAL(10,2) DEFAULT 0.00");
+            }
+            rs.close();
+
         } catch (SQLException e) {
             System.err.println("⚠️ Error applying schema updates: " + e.getMessage());
         }
+    }
+
+    // --- Statistics Helper Methods ---
+
+    public static int getTotalPatients() {
+        String sql = "SELECT COUNT(*) FROM patients";
+        try (Connection conn = getConnection();
+                PreparedStatement st = conn.prepareStatement(sql);
+                ResultSet rs = st.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int getTodayAppointmentsCount() {
+        String sql = "SELECT COUNT(*) FROM appointments WHERE appointment_date = CURRENT_DATE";
+        try (Connection conn = getConnection();
+                PreparedStatement st = conn.prepareStatement(sql);
+                ResultSet rs = st.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static double getTodayRevenue() {
+        String sql = "SELECT SUM(charge_amount) FROM appointments WHERE appointment_date = CURRENT_DATE AND status = 'Done'";
+        try (Connection conn = getConnection();
+                PreparedStatement st = conn.prepareStatement(sql);
+                ResultSet rs = st.executeQuery()) {
+            if (rs.next())
+                return rs.getDouble(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
+    public static int getMonthlyTreatments() {
+        String sql = "SELECT COUNT(*) FROM appointments WHERE MONTH(appointment_date) = MONTH(CURRENT_DATE) AND YEAR(appointment_date) = YEAR(CURRENT_DATE) AND status = 'Done'";
+        try (Connection conn = getConnection();
+                PreparedStatement st = conn.prepareStatement(sql);
+                ResultSet rs = st.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
