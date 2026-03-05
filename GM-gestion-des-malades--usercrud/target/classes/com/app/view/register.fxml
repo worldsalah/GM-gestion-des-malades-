@@ -147,6 +147,18 @@
                               <Label fx:id="messageLabel" textFill="#ff4757" wrapText="true" />
                               
                               <Button mnemonicParsing="false" onAction="#registerAction" prefHeight="45.0" prefWidth="Infinity" styleClass="btn-login" text="COMPLETE REGISTRATION" />
+
+                              <!-- Face Registration Button -->
+                              <Button mnemonicParsing="false" onAction="#handleFaceRegistration" prefHeight="45.0" prefWidth="Infinity" style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-font-weight: bold; -fx-background-radius: 8;">
+                                 <graphic>
+                                    <HBox alignment="CENTER" spacing="10">
+                                       <children>
+                                          <SVGPath content="M9,11.75c-0.69,0-1.25,0.56-1.25,1.25s0.56,1.25,1.25,1.25s1.25-0.56,1.25-1.25S9.69,11.75,9,11.75z M15,11.75 c-0.69,0-1.25,0.56-1.25,1.25s0.56,1.25,1.25,1.25s1.25-0.56,1.25-1.25S15.69,11.75,15,11.75z M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10 s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z M12,14c-1.33,0-4,0.67-4,2v1h8v-1 C16,14.67,13.33,14,12,14z" fill="#475569" scaleX="0.8" scaleY="0.8" />
+                                          <Label style="-fx-text-fill: #475569;" text="Register Face ID" />
+                                       </children>
+                                    </HBox>
+                                 </graphic>
+                              </Button>
                               
                               <HBox alignment="CENTER" spacing="5.0">
                                  <children>

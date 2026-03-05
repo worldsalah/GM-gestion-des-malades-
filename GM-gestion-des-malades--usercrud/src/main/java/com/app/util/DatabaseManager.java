@@ -70,6 +70,30 @@ public class DatabaseManager {
             }
             rs.close();
 
+            // Check and add 'face_template' column to 'users'
+            rs = conn.getMetaData().getColumns(null, null, "users", "face_template");
+            if (!rs.next()) {
+                System.out.println("🔧 Adding 'face_template' column to 'users' table...");
+                conn.createStatement().execute("ALTER TABLE users ADD COLUMN face_template TEXT");
+            }
+            rs.close();
+
+            // Check and add 'social_id' column to 'users'
+            rs = conn.getMetaData().getColumns(null, null, "users", "social_id");
+            if (!rs.next()) {
+                System.out.println("🔧 Adding 'social_id' column to 'users' table...");
+                conn.createStatement().execute("ALTER TABLE users ADD COLUMN social_id VARCHAR(255)");
+            }
+            rs.close();
+
+            // Check and add 'social_provider' column to 'users'
+            rs = conn.getMetaData().getColumns(null, null, "users", "social_provider");
+            if (!rs.next()) {
+                System.out.println("🔧 Adding 'social_provider' column to 'users' table...");
+                conn.createStatement().execute("ALTER TABLE users ADD COLUMN social_provider VARCHAR(50)");
+            }
+            rs.close();
+
         } catch (SQLException e) {
             System.err.println("⚠️ Error applying schema updates: " + e.getMessage());
         }

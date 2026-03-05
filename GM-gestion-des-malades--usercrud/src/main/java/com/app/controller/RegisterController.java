@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import com.app.util.FaceRecognitionService;
 
 public class RegisterController {
 
@@ -51,6 +52,9 @@ public class RegisterController {
 
     private double xOffset = 0;
     private double yOffset = 0;
+
+    private FaceRecognitionService faceService = new FaceRecognitionService();
+    private String capturedFaceTemplate = null;
 
     @FXML
     public void registerAction(ActionEvent event) {
@@ -88,7 +92,7 @@ public class RegisterController {
 
     private boolean registerUser(String username, String password, String firstName, String lastName, String email,
             String phone, String gender, String role) {
-        String query = "INSERT INTO users (username, password, first_name, last_name, email, phone, gender, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (username, password, first_name, last_name, email, phone, gender, role, face_template) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseManager.getConnection()) {
             if (conn == null)
                 return false;
@@ -101,6 +105,7 @@ public class RegisterController {
                 pst.setString(6, phone);
                 pst.setString(7, gender);
                 pst.setString(8, role);
+                pst.setString(9, capturedFaceTemplate);
                 int affectedRows = pst.executeUpdate();
                 return affectedRows > 0;
             }
@@ -148,5 +153,36 @@ public class RegisterController {
     @FXML
     public void handleClose(ActionEvent event) {
         MainApp.closeApp();
+    }
+
+    @FXML
+    public void handleGoogleSignup(ActionEvent event) {
+        System.out.println("Google Signup Initiated...");
+        messageLabel.setStyle("-fx-text-fill: #3b82f6;");
+        messageLabel.setText("Signing up with Google...");
+    }
+
+    @FXML
+    public void handleFacebookSignup(ActionEvent event) {
+        System.out.println("Facebook Signup Initiated...");
+        messageLabel.setStyle("-fx-text-fill: #1877f2;");
+        messageLabel.setText("Signing up with Facebook...");
+    }
+
+    @FXML
+    public void handleFaceRegistration(ActionEvent event) {
+        System.out.println("Face Registration Initiated...");
+        messageLabel.setStyle("-fx-text-fill: #6366f1;");
+        messageLabel.setText("Position your face in front of the camera...");
+
+        capturedFaceTemplate = faceService.captureFaceTemplate();
+
+        if (capturedFaceTemplate != null) {
+            messageLabel.setStyle("-fx-text-fill: #10b981;");
+            messageLabel.setText("✅ Face captured successfully! Complete the form to finish.");
+        } else {
+            messageLabel.setStyle("-fx-text-fill: #ef4444;");
+            messageLabel.setText("❌ Failed to capture face. Please try again.");
+        }
     }
 }

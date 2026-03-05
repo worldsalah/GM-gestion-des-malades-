@@ -77,9 +77,49 @@
 
                               <Button mnemonicParsing="false" onAction="#loginAction" prefHeight="45.0" prefWidth="250.0" styleClass="btn-login" text="LOGIN" />
 
-                              <Region prefHeight="10.0" />
+                              <!-- Face Login Button -->
+                              <Button mnemonicParsing="false" onAction="#handleFaceLogin" prefHeight="45.0" prefWidth="250.0" styleClass="btn-secondary" style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569;">
+                                 <graphic>
+                                    <HBox alignment="CENTER" spacing="10">
+                                       <children>
+                                          <SVGPath content="M9,11.75c-0.69,0-1.25,0.56-1.25,1.25s0.56,1.25,1.25,1.25s1.25-0.56,1.25-1.25S9.69,11.75,9,11.75z M15,11.75 c-0.69,0-1.25,0.56-1.25,1.25s0.56,1.25,1.25,1.25s1.25-0.56,1.25-1.25S15.69,11.75,15,11.75z M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10 s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z M12,14c-1.33,0-4,0.67-4,2v1h8v-1 C16,14.67,13.33,14,12,14z" fill="#475569" scaleX="0.8" scaleY="0.8" />
+                                          <Label style="-fx-font-weight: bold; -fx-text-fill: #475569;" text="Face Login" />
+                                       </children>
+                                    </HBox>
+                                 </graphic>
+                              </Button>
+
+                              <HBox alignment="CENTER" spacing="15.0">
+                                 <children>
+                                    <Region prefHeight="1.0" style="-fx-background-color: #e2e8f0;" HBox.hgrow="ALWAYS" />
+                                    <Text style="-fx-fill: #94a3b8; -fx-font-size: 11px;" text="OR CONTINUE WITH" />
+                                    <Region prefHeight="1.0" style="-fx-background-color: #e2e8f0;" HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="40.0" right="40.0" />
+                                 </padding>
+                              </HBox>
+
+                              <HBox alignment="CENTER" spacing="15.0">
+                                 <children>
+                                    <!-- Google Login -->
+                                    <Button onAction="#handleGoogleLogin" styleClass="btn-social" style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                                       <graphic>
+                                          <SVGPath content="M22.56,12.25c0-0.78-0.07-1.53-0.2-2.25H12v4.26h5.92c-0.26,1.37-1.04,2.53-2.21,3.31v2.77h3.57 C21.35,18.41,22.56,15.62,22.56,12.25z M12,23c2.97,0,5.46-0.98,7.28-2.66l-3.57-2.77c-0.99,0.66-2.26,1.05-3.71,1.05 c-2.86,0-5.29-1.93-6.16-4.53H2.18v2.84C3.99,20.53,7.7,23,12,23z M5.84,14.09c-0.22-0.66-0.35-1.36-0.35-2.09s0.13-1.43,0.35-2.09 V7.07H2.18C1.43,8.55,1,10.22,1,12s0.43,3.45,1.18,4.93l3.66-2.84z M12,5.38c1.62,0,3.06,0.56,4.21,1.64l3.15-3.15 C17.45,2.09,14.97,1,12,1C7.7,1,3.99,3.47,2.18,7.07l3.66,2.84C6.71,7.31,9.14,5.38,12,5.38z" fill="#4285F4" />
+                                       </graphic>
+                                    </Button>
+                                    <!-- Facebook Login -->
+                                    <Button onAction="#handleFacebookLogin" styleClass="btn-social" style="-fx-background-color: #1877F2;">
+                                       <graphic>
+                                          <SVGPath content="M24,12.073C24,5.405,18.627,0,12,0S0,5.405,0,12.073c0,6.027,4.413,11.025,10.125,11.921V15.39H7.078v-3.317h3.047V9.43 c0-3.007,1.792-4.669,4.533-4.669c1.312,0,2.686,0.235,2.686,0.235v2.953H15.83c-1.491,0-1.956,0.925-1.956,1.874v2.25h3.328 l-0.532,3.317h-2.796v8.604C19.587,23.098,24,18.099,24,12.073z" fill="white" />
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
+
+                              <Region prefHeight="5.0" />
                               <Text styleClass="link-text" text="Forgot Username / Password?" />
-                              <Region prefHeight="15.0" />
+                              <Region prefHeight="10.0" />
                               <Text onMouseClicked="#openRegisterPage" styleClass="link-text" text="Create your Account →" />
                               <Region VBox.vgrow="ALWAYS" />
                            </children>

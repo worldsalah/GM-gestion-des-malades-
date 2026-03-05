@@ -4,6 +4,7 @@ module com.app {
     requires javafx.graphics;
     requires java.sql;
     requires mysql.connector.j;
+    requires opencv;
 
     opens com.app.controller to javafx.fxml, javafx.base;
 

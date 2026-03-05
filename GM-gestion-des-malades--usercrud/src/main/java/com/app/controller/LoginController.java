@@ -17,6 +17,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import com.app.util.FaceRecognitionService;
 
 public class LoginController {
 
@@ -34,6 +36,8 @@ public class LoginController {
 
     @FXML
     private Label messageLabel;
+
+    private FaceRecognitionService faceService = new FaceRecognitionService();
 
     @FXML
     public void initialize() {
@@ -154,6 +158,71 @@ public class LoginController {
             MainApp.setRoot("register");
         } catch (IOException e) {
             messageLabel.setText("Error loading register page: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleGoogleLogin(ActionEvent event) {
+        System.out.println("Google Login Initiated...");
+        // OAuth simulation for now
+        messageLabel.setStyle("-fx-text-fill: #3b82f6;");
+        messageLabel.setText("Connecting to Google...");
+    }
+
+    @FXML
+    public void handleFacebookLogin(ActionEvent event) {
+        System.out.println("Facebook Login Initiated...");
+        // OAuth simulation for now
+        messageLabel.setStyle("-fx-text-fill: #1877f2;");
+        messageLabel.setText("Connecting to Facebook...");
+    }
+
+    @FXML
+    public void handleFaceLogin(ActionEvent event) {
+        System.out.println("Face Login Initiated...");
+        messageLabel.setStyle("-fx-text-fill: #6366f1;");
+        messageLabel.setText("Scanning Face...");
+
+        String scannedTemplate = faceService.captureFaceTemplate();
+        if (scannedTemplate == null) {
+            messageLabel.setText("❌ No face detected. Try again.");
+            return;
+        }
+
+        // Search database for a matching face
+        String sql = "SELECT * FROM users WHERE face_template IS NOT NULL";
+        try (Connection conn = DatabaseManager.getConnection();
+                PreparedStatement st = conn.prepareStatement(sql);
+                ResultSet rs = st.executeQuery()) {
+
+            boolean found = false;
+            while (rs.next()) {
+                String storedTemplate = rs.getString("face_template");
+                if (faceService.verifyFace(scannedTemplate, storedTemplate)) {
+                    // Match found! Login the user
+                    UserSession.setInstance(
+                            getStringSafe(rs, "username"),
+                            getStringSafe(rs, "role"),
+                            getStringSafe(rs, "first_name"),
+                            getStringSafe(rs, "last_name"),
+                            getStringSafe(rs, "email"),
+                            getStringSafe(rs, "phone"),
+                            getStringSafe(rs, "gender"),
+                            getStringSafe(rs, "profile_image"));
+                    System.out.println("✅ Face Login Successful for: " + rs.getString("username"));
+                    MainApp.setRoot("dashboard");
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                messageLabel.setText("❌ Face not recognized.");
+            }
+
+        } catch (Exception e) {
+            messageLabel.setText("Error during face login: " + e.getMessage());
             e.printStackTrace();
         }
     }
