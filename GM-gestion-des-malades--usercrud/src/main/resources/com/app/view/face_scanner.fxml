@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #e2e8f0; -fx-border-width: 1;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.FaceScannerController">
+   <children>
+      <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <Label text="Face Scanner" textFill="#1e293b">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            
+            <Label fx:id="statusLabel" text="Initializing camera..." textFill="#64748b" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            
+            <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #f1f5f9; -fx-background-radius: 150; -fx-border-color: #6366f1; -fx-border-radius: 150; -fx-border-width: 3;">
+               <children>
+                  <ImageView fx:id="cameraView" fitHeight="294.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
+                     <clip>
+                        <Circle centerX="147.0" centerY="147.0" radius="147.0" />
+                     </clip>
+                  </ImageView>
+               </children>
+            </StackPane>
+            
+            <HBox alignment="CENTER" spacing="15.0">
+               <children>
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" prefHeight="40.0" prefWidth="120.0" styleClass="btn-secondary" text="Cancel" />
+                  <Button fx:id="scanButton" mnemonicParsing="false" onAction="#handleScan" prefHeight="40.0" prefWidth="120.0" styleClass="btn-login" text="Scan Now" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

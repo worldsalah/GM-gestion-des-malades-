@@ -56,6 +56,8 @@ public class RegisterController {
     private FaceRecognitionService faceService = new FaceRecognitionService();
     private String capturedFaceTemplate = null;
 
+    private String registrationError = null;
+
     @FXML
     public void registerAction(ActionEvent event) {
         String firstName = firstNameField.getText();
@@ -76,7 +78,7 @@ public class RegisterController {
 
         if (registerUser(username, password, firstName, lastName, email, phone, gender, role)) {
             messageLabel.setStyle("-fx-text-fill: #2ed573;");
-            messageLabel.setText("MESSAGER SUCCESED REGISTERING! You can now login.");
+            messageLabel.setText("✅ REGISTRATION SUCCESSFUL! You can now login.");
             // Clear fields for visual feedback
             firstNameField.clear();
             lastNameField.clear();
@@ -86,16 +88,25 @@ public class RegisterController {
             passwordField.clear();
         } else {
             messageLabel.setStyle("-fx-text-fill: #ff4757;");
-            messageLabel.setText("Registration failed. Username might be taken.");
+            if (registrationError != null) {
+                messageLabel.setText("❌ Error: " + registrationError);
+            } else {
+                messageLabel.setText("❌ Registration failed. System error.");
+            }
         }
     }
 
     private boolean registerUser(String username, String password, String firstName, String lastName, String email,
             String phone, String gender, String role) {
-        String query = "INSERT INTO users (username, password, first_name, last_name, email, phone, gender, role, face_template) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        registrationError = null;
+        // Check for common columns and ensure face_template is included.
+        // We add 'profile_image' as well just in case it's required.
+        String query = "INSERT INTO users (username, password, first_name, last_name, email, phone, gender, role, face_template, profile_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseManager.getConnection()) {
-            if (conn == null)
+            if (conn == null) {
+                registrationError = "Could not connect to database.";
                 return false;
+            }
             try (PreparedStatement pst = conn.prepareStatement(query)) {
                 pst.setString(1, username);
                 pst.setString(2, password);
@@ -106,11 +117,14 @@ public class RegisterController {
                 pst.setString(7, gender);
                 pst.setString(8, role);
                 pst.setString(9, capturedFaceTemplate);
+                pst.setString(10, ""); // Default profile image
                 int affectedRows = pst.executeUpdate();
                 return affectedRows > 0;
             }
         } catch (SQLException e) {
+            System.err.println("❌ Registration SQL Error: " + e.getMessage());
             e.printStackTrace();
+            registrationError = e.getMessage();
             return false;
         }
     }

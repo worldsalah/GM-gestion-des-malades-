@@ -17,8 +17,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import com.app.util.FaceRecognitionService;
 
 public class LoginController {
 
@@ -36,8 +34,6 @@ public class LoginController {
 
     @FXML
     private Label messageLabel;
-
-    private FaceRecognitionService faceService = new FaceRecognitionService();
 
     @FXML
     public void initialize() {
@@ -180,49 +176,30 @@ public class LoginController {
 
     @FXML
     public void handleFaceLogin(ActionEvent event) {
-        System.out.println("Face Login Initiated...");
-        messageLabel.setStyle("-fx-text-fill: #6366f1;");
-        messageLabel.setText("Scanning Face...");
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                    getClass().getResource("/com/app/view/face_scanner.fxml"));
+            javafx.scene.Parent root = loader.load();
 
-        String scannedTemplate = faceService.captureFaceTemplate();
-        if (scannedTemplate == null) {
-            messageLabel.setText("❌ No face detected. Try again.");
-            return;
-        }
+            Stage stage = new Stage();
+            stage.initStyle(javafx.stage.StageStyle.UNDECORATED); // Modern look
+            stage.setScene(new javafx.scene.Scene(root));
 
-        // Search database for a matching face
-        String sql = "SELECT * FROM users WHERE face_template IS NOT NULL";
-        try (Connection conn = DatabaseManager.getConnection();
-                PreparedStatement st = conn.prepareStatement(sql);
-                ResultSet rs = st.executeQuery()) {
+            // Make it draggable
+            root.setOnMousePressed(e -> {
+                xOffset = e.getSceneX();
+                yOffset = e.getSceneY();
+            });
+            root.setOnMouseDragged(e -> {
+                stage.setX(e.getScreenX() - xOffset);
+                stage.setY(e.getScreenY() - yOffset);
+            });
 
-            boolean found = false;
-            while (rs.next()) {
-                String storedTemplate = rs.getString("face_template");
-                if (faceService.verifyFace(scannedTemplate, storedTemplate)) {
-                    // Match found! Login the user
-                    UserSession.setInstance(
-                            getStringSafe(rs, "username"),
-                            getStringSafe(rs, "role"),
-                            getStringSafe(rs, "first_name"),
-                            getStringSafe(rs, "last_name"),
-                            getStringSafe(rs, "email"),
-                            getStringSafe(rs, "phone"),
-                            getStringSafe(rs, "gender"),
-                            getStringSafe(rs, "profile_image"));
-                    System.out.println("✅ Face Login Successful for: " + rs.getString("username"));
-                    MainApp.setRoot("dashboard");
-                    found = true;
-                    break;
-                }
-            }
+            stage.show();
+            System.out.println("📸 Visual Face Scanner opened.");
 
-            if (!found) {
-                messageLabel.setText("❌ Face not recognized.");
-            }
-
-        } catch (Exception e) {
-            messageLabel.setText("Error during face login: " + e.getMessage());
+        } catch (IOException e) {
+            messageLabel.setText("Error loading scanner: " + e.getMessage());
             e.printStackTrace();
         }
     }

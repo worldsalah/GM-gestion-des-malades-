@@ -74,7 +74,11 @@ public class DatabaseManager {
             rs = conn.getMetaData().getColumns(null, null, "users", "face_template");
             if (!rs.next()) {
                 System.out.println("🔧 Adding 'face_template' column to 'users' table...");
-                conn.createStatement().execute("ALTER TABLE users ADD COLUMN face_template TEXT");
+                conn.createStatement().execute("ALTER TABLE users ADD COLUMN face_template LONGTEXT");
+            } else {
+                // Ensure it's LONGTEXT if it already exists as TEXT
+                System.out.println("🔧 Ensuring 'face_template' is LONGTEXT...");
+                conn.createStatement().execute("ALTER TABLE users MODIFY COLUMN face_template LONGTEXT");
             }
             rs.close();
 
