@@ -54,14 +54,14 @@
                         <VBox alignment="CENTER" layoutX="350.0" prefHeight="450.0" prefWidth="350.0" spacing="10.0">
                            <children>
                               <Region VBox.vgrow="ALWAYS" />
-                              <Text styleClass="login-header" text="User Login" />
+                              <Text styleClass="login-header" text="Connexion Utilisateur" />
                               <Region prefHeight="10.0" />
 
                               <!-- Username Field -->
                               <HBox alignment="CENTER_LEFT" maxWidth="250.0" prefHeight="45.0" styleClass="input-group">
                                  <children>
                                     <SVGPath content="M12,12c2.21,0,4-1.79,4-4s-1.79-4-4-4s-4,1.79-4,4S9.79,12,12,12z M12,14c-2.67,0-8,1.34-8,4v2h16v-2C20,15.34,14.67,14,12,14z" fill="#adb5bd" scaleX="0.8" scaleY="0.8" />
-                                    <TextField fx:id="usernameField" promptText="Username" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="usernameField" promptText="Nom d'utilisateur" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
 
@@ -69,13 +69,13 @@
                               <HBox alignment="CENTER_LEFT" maxWidth="250.0" prefHeight="45.0" styleClass="input-group">
                                  <children>
                                     <SVGPath content="M18,8h-1V6c0-2.76-2.24-5-5-5S7,3.24,7,6v2H6c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V10C20,8.9,19.1,8,18,8z M9,6c0-1.66,1.34-3,3-3s3,1.34,3,3v2H9V6z" fill="#adb5bd" scaleX="0.8" scaleY="0.8" />
-                                    <PasswordField fx:id="passwordField" promptText="Password" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                                    <PasswordField fx:id="passwordField" promptText="Mot de passe" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
 
                               <Label fx:id="messageLabel" textFill="#ff4757" wrapText="true" />
 
-                              <Button mnemonicParsing="false" onAction="#loginAction" prefHeight="45.0" prefWidth="250.0" styleClass="btn-login" text="LOGIN" />
+                              <Button mnemonicParsing="false" onAction="#loginAction" prefHeight="45.0" prefWidth="250.0" styleClass="btn-login" text="CONNEXION" />
 
                               <!-- Face Login Button -->
                               <Button mnemonicParsing="false" onAction="#handleFaceLogin" prefHeight="45.0" prefWidth="250.0" styleClass="btn-secondary" style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569;">
@@ -83,7 +83,7 @@
                                     <HBox alignment="CENTER" spacing="10">
                                        <children>
                                           <SVGPath content="M9,11.75c-0.69,0-1.25,0.56-1.25,1.25s0.56,1.25,1.25,1.25s1.25-0.56,1.25-1.25S9.69,11.75,9,11.75z M15,11.75 c-0.69,0-1.25,0.56-1.25,1.25s0.56,1.25,1.25,1.25s1.25-0.56,1.25-1.25S15.69,11.75,15,11.75z M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10 s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z M12,14c-1.33,0-4,0.67-4,2v1h8v-1 C16,14.67,13.33,14,12,14z" fill="#475569" scaleX="0.8" scaleY="0.8" />
-                                          <Label style="-fx-font-weight: bold; -fx-text-fill: #475569;" text="Face Login" />
+                                          <Label style="-fx-font-weight: bold; -fx-text-fill: #475569;" text="Connexion Faciale" />
                                        </children>
                                     </HBox>
                                  </graphic>
@@ -92,7 +92,7 @@
                               <HBox alignment="CENTER" spacing="15.0">
                                  <children>
                                     <Region prefHeight="1.0" style="-fx-background-color: #e2e8f0;" HBox.hgrow="ALWAYS" />
-                                    <Text style="-fx-fill: #94a3b8; -fx-font-size: 11px;" text="OR CONTINUE WITH" />
+                                    <Text style="-fx-fill: #94a3b8; -fx-font-size: 11px;" text="OU CONTINUER AVEC" />
                                     <Region prefHeight="1.0" style="-fx-background-color: #e2e8f0;" HBox.hgrow="ALWAYS" />
                                  </children>
                                  <padding>
@@ -118,9 +118,9 @@
                               </HBox>
 
                               <Region prefHeight="5.0" />
-                              <Text styleClass="link-text" text="Forgot Username / Password?" />
+                              <Text styleClass="link-text" text="Nom d'utilisateur / Mot de passe oublié?" />
                               <Region prefHeight="10.0" />
-                              <Text onMouseClicked="#openRegisterPage" styleClass="link-text" text="Create your Account →" />
+                              <Text onMouseClicked="#openRegisterPage" styleClass="link-text" text="Créer votre Compte →" />
                               <Region VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>

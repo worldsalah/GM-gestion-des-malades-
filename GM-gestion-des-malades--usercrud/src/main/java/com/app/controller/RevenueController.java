@@ -532,7 +532,7 @@ public class RevenueController {
             MainApp.setRoot("dashboard");
         } catch (IOException e) {
             e.printStackTrace();
-            showError("Navigation Error", "Could not load dashboard: " + e.getMessage());
+            showError("Erreur de navigation", "Impossible de charger le tableau de bord: " + e.getMessage());
         }
     }
 
@@ -542,7 +542,7 @@ public class RevenueController {
             MainApp.setRoot("patients");
         } catch (IOException e) {
             e.printStackTrace();
-            showError("Navigation Error", "Could not load patients: " + e.getMessage());
+            showError("Erreur de navigation", "Impossible de charger les patients: " + e.getMessage());
         }
     }
 
@@ -552,7 +552,7 @@ public class RevenueController {
             MainApp.setRoot("appointments");
         } catch (IOException e) {
             e.printStackTrace();
-            showError("Navigation Error", "Could not load appointments: " + e.getMessage());
+            showError("Erreur de navigation", "Impossible de charger les rendez-vous: " + e.getMessage());
         }
     }
 
@@ -562,7 +562,7 @@ public class RevenueController {
             MainApp.setRoot("tasks");
         } catch (IOException e) {
             e.printStackTrace();
-            showError("Navigation Error", "Could not load tasks: " + e.getMessage());
+            showError("Erreur de navigation", "Impossible de charger les tâches: " + e.getMessage());
         }
     }
 
@@ -578,7 +578,7 @@ public class RevenueController {
             MainApp.setRoot("profile");
         } catch (IOException e) {
             e.printStackTrace();
-            showError("Navigation Error", "Could not load profile: " + e.getMessage());
+            showError("Erreur de navigation", "Impossible de charger le profil: " + e.getMessage());
         }
     }
 
@@ -588,7 +588,7 @@ public class RevenueController {
             MainApp.setRoot("ask_me");
         } catch (IOException e) {
             e.printStackTrace();
-            showError("Navigation Error", "Could not load AI Assistant: " + e.getMessage());
+            showError("Erreur de navigation", "Impossible de charger l'assistant IA: " + e.getMessage());
         }
     }
 
@@ -598,7 +598,7 @@ public class RevenueController {
             MainApp.setRoot("login");
         } catch (IOException e) {
             e.printStackTrace();
-            showError("Navigation Error", "Could not load login: " + e.getMessage());
+            showError("Erreur de navigation", "Impossible de charger la page de connexion: " + e.getMessage());
         }
     }
 

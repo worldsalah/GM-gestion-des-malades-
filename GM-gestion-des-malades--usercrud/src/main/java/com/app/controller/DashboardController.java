@@ -1262,8 +1262,8 @@ public class DashboardController {
     private void showRevenueDialog() {
         // Create a simple dialog to show revenue data
         javafx.scene.control.Dialog<Void> dialog = new javafx.scene.control.Dialog<>();
-        dialog.setTitle("Revenue Analytics");
-        dialog.setHeaderText("Revenue Overview");
+        dialog.setTitle("Analyse des revenus");
+        dialog.setHeaderText("Aperçu des revenus");
         
         // Create content
         javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(20);
@@ -1278,10 +1278,10 @@ public class DashboardController {
         
         // Add revenue labels
         content.getChildren().addAll(
-            new javafx.scene.control.Label("Today's Revenue: $" + String.format("%.2f", todayRevenue)),
-            new javafx.scene.control.Label("Weekly Revenue: $" + String.format("%.2f", weeklyRevenue)),
-            new javafx.scene.control.Label("Monthly Revenue: $" + String.format("%.2f", monthlyRevenue)),
-            new javafx.scene.control.Label("Yearly Revenue: $" + String.format("%.2f", yearlyRevenue))
+            new javafx.scene.control.Label("Revenus d'aujourd'hui: $" + String.format("%.2f", todayRevenue)),
+            new javafx.scene.control.Label("Revenus hebdomadaires: $" + String.format("%.2f", weeklyRevenue)),
+            new javafx.scene.control.Label("Revenus mensuels: $" + String.format("%.2f", monthlyRevenue)),
+            new javafx.scene.control.Label("Revenus annuels: $" + String.format("%.2f", yearlyRevenue))
         );
         
         dialog.getDialogPane().setContent(content);

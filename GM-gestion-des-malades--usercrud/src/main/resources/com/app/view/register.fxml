@@ -54,8 +54,8 @@
                            </padding>
                            <children>
                               <Region VBox.vgrow="ALWAYS" />
-                              <Text styleClass="login-header" text="Join UniLearn" />
-                              <Text styleClass="tiny-label" text="Get started with your free account" />
+                              <Text styleClass="login-header" text="Rejoindre App Médecin" />
+                              <Text styleClass="tiny-label" text="Commencez avec votre compte gratuit" />
                               
                               <Region prefHeight="10.0" />
                               
@@ -75,39 +75,39 @@
                                     <!-- First Name -->
                                     <HBox alignment="CENTER_LEFT" styleClass="input-group" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                        <children>
-                                          <TextField fx:id="firstNameField" promptText="First Name" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="firstNameField" promptText="Prénom" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     
                                     <!-- Last Name -->
                                     <HBox alignment="CENTER_LEFT" styleClass="input-group" GridPane.columnIndex="1" GridPane.rowIndex="0">
                                        <children>
-                                          <TextField fx:id="lastNameField" promptText="Last Name" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="lastNameField" promptText="Nom" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     
                                     <!-- Email -->
                                     <HBox alignment="CENTER_LEFT" styleClass="input-group" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
                                        <children>
-                                          <TextField fx:id="emailField" promptText="Email Address" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="emailField" promptText="Adresse Email" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     
                                     <!-- Phone -->
                                     <HBox alignment="CENTER_LEFT" styleClass="input-group" GridPane.columnIndex="0" GridPane.rowIndex="2">
                                        <children>
-                                          <TextField fx:id="phoneField" promptText="Phone Number" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="phoneField" promptText="Numéro de Téléphone" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     
                                     <!-- Gender -->
                                     <HBox alignment="CENTER_LEFT" styleClass="input-group" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                        <children>
-                                          <ComboBox fx:id="genderBox" prefWidth="Infinity" promptText="Gender" styleClass="transparent-input" HBox.hgrow="ALWAYS">
+                                          <ComboBox fx:id="genderBox" prefWidth="Infinity" promptText="Genre" styleClass="transparent-input" HBox.hgrow="ALWAYS">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:value="Male" />
-                                                   <String fx:value="Female" />
+                                                   <String fx:value="Homme" />
+                                                   <String fx:value="Femme" />
                                                 </FXCollections>
                                              </items>
                                           </ComboBox>
@@ -117,7 +117,7 @@
                                     <!-- Role -->
                                     <HBox alignment="CENTER_LEFT" styleClass="input-group" GridPane.columnIndex="0" GridPane.rowIndex="3">
                                        <children>
-                                           <ComboBox fx:id="roleBox" prefWidth="Infinity" promptText="Professional Role" styleClass="transparent-input" HBox.hgrow="ALWAYS">
+                                           <ComboBox fx:id="roleBox" prefWidth="Infinity" promptText="Rôle Professionnel" styleClass="transparent-input" HBox.hgrow="ALWAYS">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                    <String fx:value="Doctor" />
@@ -132,7 +132,7 @@
                                     <!-- Username -->
                                     <HBox alignment="CENTER_LEFT" styleClass="input-group" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                        <children>
-                                          <TextField fx:id="usernameField" promptText="Username" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="usernameField" promptText="Nom d'utilisateur" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                 </children>
@@ -140,13 +140,13 @@
                               
                               <HBox alignment="CENTER_LEFT" prefHeight="45.0" styleClass="input-group">
                                  <children>
-                                    <PasswordField fx:id="passwordField" promptText="Set a Strong Password" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                                    <PasswordField fx:id="passwordField" promptText="Définir un mot de passe fort" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
              
                               <Label fx:id="messageLabel" textFill="#ff4757" wrapText="true" />
                               
-                              <Button mnemonicParsing="false" onAction="#registerAction" prefHeight="45.0" prefWidth="Infinity" styleClass="btn-login" text="COMPLETE REGISTRATION" />
+                              <Button mnemonicParsing="false" onAction="#registerAction" prefHeight="45.0" prefWidth="Infinity" styleClass="btn-login" text="TERMINER L'INSCRIPTION" />
 
                               <!-- Face Registration Button -->
                               <Button mnemonicParsing="false" onAction="#handleFaceRegistration" prefHeight="45.0" prefWidth="Infinity" style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-font-weight: bold; -fx-background-radius: 8;">
@@ -154,7 +154,7 @@
                                     <HBox alignment="CENTER" spacing="10">
                                        <children>
                                           <SVGPath content="M9,11.75c-0.69,0-1.25,0.56-1.25,1.25s0.56,1.25,1.25,1.25s1.25-0.56,1.25-1.25S9.69,11.75,9,11.75z M15,11.75 c-0.69,0-1.25,0.56-1.25,1.25s0.56,1.25,1.25,1.25s1.25-0.56,1.25-1.25S15.69,11.75,15,11.75z M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10 s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z M12,14c-1.33,0-4,0.67-4,2v1h8v-1 C16,14.67,13.33,14,12,14z" fill="#475569" scaleX="0.8" scaleY="0.8" />
-                                          <Label style="-fx-text-fill: #475569;" text="Register Face ID" />
+                                          <Label style="-fx-text-fill: #475569;" text="Enregistrer l'ID Faciale" />
                                        </children>
                                     </HBox>
                                  </graphic>
@@ -162,8 +162,8 @@
                               
                               <HBox alignment="CENTER" spacing="5.0">
                                  <children>
-                                    <Text styleClass="tiny-label" text="Already have an account?" />
-                                    <Text onMouseClicked="#backToLogin" styleClass="link-text" text="Login here" />
+                                    <Text styleClass="tiny-label" text="Vous avez déjà un compte?" />
+                                    <Text onMouseClicked="#backToLogin" styleClass="link-text" text="Connectez-vous ici" />
                                  </children>
                               </HBox>
                               <Region VBox.vgrow="ALWAYS" />
