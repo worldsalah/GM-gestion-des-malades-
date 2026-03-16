@@ -27,7 +27,7 @@ SolidCompression=yes
 PrivilegesRequired=admin
 WizardStyle=modern
 ArchitecturesAllowed=x64
-MinVersion=6.1sp1sp1
+MinVersion=6.1
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
